@@ -84,6 +84,18 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --------------------------------------------------
+# IMAGE URLS
+# --------------------------------------------------
+
+student_image = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=85"
+
+study_image = "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=85"
+
+books_image = "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=900&q=85"
+
+ai_image = "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=900&q=85"
+
+# --------------------------------------------------
 # HEADER
 # --------------------------------------------------
 
@@ -120,18 +132,15 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-    st.markdown("### 🧠 Choose a Study Tool")
+    st.markdown("### 🧠 Study Tools")
 
-    selected_tool = st.radio(
-        "Select an option:",
-        [
-            "💬 Ask AI",
-            "📖 Explain Topic",
-            "📝 Summarize",
-            "🎯 Generate Quiz"
-        ],
-        key="study_tool"
-    )
+    st.info("💬 Ask AI\n\nAsk any study question.")
+
+    st.success("📖 Explain Topic\n\nUnderstand difficult topics.")
+
+    st.warning("📝 Summarize\n\nGet simple notes.")
+
+    st.error("🎯 Generate Quiz\n\nPractice your knowledge.")
 
     st.markdown("---")
 
@@ -183,14 +192,6 @@ with col1:
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button(
-        "💬 Select Ask AI",
-        key="select_ask",
-        use_container_width=True
-    ):
-        st.session_state.study_tool = "💬 Ask AI"
-        st.rerun()
-
 with col2:
 
     st.markdown("""
@@ -208,14 +209,6 @@ with col2:
 
     </div>
     """, unsafe_allow_html=True)
-
-    if st.button(
-        "📖 Select Explain",
-        key="select_explain",
-        use_container_width=True
-    ):
-        st.session_state.study_tool = "📖 Explain Topic"
-        st.rerun()
 
 with col3:
 
@@ -235,14 +228,6 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button(
-        "📝 Select Summarize",
-        key="select_summary",
-        use_container_width=True
-    ):
-        st.session_state.study_tool = "📝 Summarize"
-        st.rerun()
-
 with col4:
 
     st.markdown("""
@@ -261,89 +246,84 @@ with col4:
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button(
-        "🎯 Select Practice",
-        key="select_quiz",
-        use_container_width=True
-    ):
-        st.session_state.study_tool = "🎯 Generate Quiz"
-        st.rerun()
-
 # --------------------------------------------------
-# STUDY BANNER
+# STUDY IMAGE SECTION
 # --------------------------------------------------
 
 st.write("")
 
+image1, image2, image3 = st.columns(3)
+
+with image1:
+
+    st.image(
+        student_image,
+        caption="🧑‍🎓 Ask your doubts and learn",
+        use_container_width=True
+    )
+
+with image2:
+
+    st.image(
+        study_image,
+        caption="📖 Learn smarter every day",
+        use_container_width=True
+    )
+
+with image3:
+
+    st.image(
+        books_image,
+        caption="📚 Build your knowledge",
+        use_container_width=True
+    )
+
+# --------------------------------------------------
+# AI TUTOR
+# --------------------------------------------------
+
+st.markdown(
+    "## 🤖 Ask Your AI Tutor"
+)
+
 st.image(
-    "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=85",
+    ai_image,
+    caption="🤖 Your AI Study Partner",
     use_container_width=True
 )
 
-# --------------------------------------------------
-# SELECTED TOOL
-# --------------------------------------------------
-
-st.markdown("---")
-
-st.markdown(
-    f"## {selected_tool}"
+question = st.text_area(
+    "💭 Your Question",
+    placeholder="Example: Explain Python variables in very simple language...",
+    height=150
 )
 
 # --------------------------------------------------
-# ASK AI / EXPLAIN
+# ASK AI BUTTON
 # --------------------------------------------------
 
-if selected_tool in ["💬 Ask AI", "📖 Explain Topic"]:
+if st.button(
+    "🤖  Ask AI",
+    use_container_width=True
+):
 
-    if selected_tool == "💬 Ask AI":
+    if not question.strip():
 
-        question_label = "💭 Your Question"
-
-        question_placeholder = (
-            "Example: What is Python? "
-            "Explain it in very simple language..."
+        st.warning(
+            "⚠️ Please enter a question first."
         )
 
     else:
 
-        question_label = "📖 Topic to Explain"
+        try:
 
-        question_placeholder = (
-            "Example: Explain Python variables "
-            "in very simple language..."
-        )
+            api_key = st.secrets["GEMINI_API_KEY"]
 
-    question = st.text_area(
-        question_label,
-        placeholder=question_placeholder,
-        height=150,
-        key="main_question"
-    )
-
-    if st.button(
-        "🤖 Ask AI",
-        use_container_width=True,
-        key="main_ai_button"
-    ):
-
-        if not question.strip():
-
-            st.warning(
-                "⚠️ Please enter a question first."
+            client = genai.Client(
+                api_key=api_key
             )
 
-        else:
-
-            try:
-
-                api_key = st.secrets["GEMINI_API_KEY"]
-
-                client = genai.Client(
-                    api_key=api_key
-                )
-
-                prompt = f"""
+            prompt = f"""
 You are an AI Study Assistant.
 
 The student asked:
@@ -374,220 +354,49 @@ Use emojis where helpful.
 Avoid unnecessarily complicated words.
 """
 
-                with st.spinner(
-                    "🤖 AI is preparing your answer..."
-                ):
+            with st.spinner(
+                "🤖 AI is preparing your answer..."
+            ):
 
-                    response = client.models.generate_content(
-                        model="gemini-3.6-flash",
-                        contents=prompt
-                    )
-
-                st.markdown("""
-                <div class="answer-box">
-
-                <h2 style="color:#312e81;">
-                📖 AI Tutor Answer
-                </h2>
-
-                </div>
-                """, unsafe_allow_html=True)
-
-                st.markdown(response.text)
-
-                st.success(
-                    "✅ Done! Keep learning 🚀"
+                response = client.models.generate_content(
+                    model="gemini-3.6-flash",
+                    contents=prompt
                 )
 
-            except KeyError:
+            st.markdown("""
+            <div class="answer-box">
 
-                st.error(
-                    "🔐 Gemini API key is missing. "
-                    "Please add GEMINI_API_KEY in "
-                    "Streamlit Secrets."
-                )
+            <h2 style="color:#312e81;">
+            📖 AI Tutor Answer
+            </h2>
 
-            except Exception as e:
+            </div>
+            """, unsafe_allow_html=True)
 
-                st.error(
-                    "❌ Something went wrong "
-                    "while connecting to Gemini."
-                )
+            st.markdown(response.text)
 
-                st.code(str(e))
-
-# --------------------------------------------------
-# SUMMARIZE
-# --------------------------------------------------
-
-elif selected_tool == "📝 Summarize":
-
-    st.markdown(
-        "### 📝 Paste your notes below"
-    )
-
-    notes = st.text_area(
-        "Your Notes",
-        placeholder="Paste your study notes here...",
-        height=220,
-        key="summary_notes"
-    )
-
-    if st.button(
-        "✨ Summarize Notes",
-        use_container_width=True,
-        key="summary_button"
-    ):
-
-        if not notes.strip():
-
-            st.warning(
-                "⚠️ Please enter some notes first."
+            st.success(
+                "✅ Done! Keep learning 🚀"
             )
 
-        else:
+        except KeyError:
 
-            try:
-
-                api_key = st.secrets["GEMINI_API_KEY"]
-
-                client = genai.Client(
-                    api_key=api_key
-                )
-
-                prompt = f"""
-Summarize these study notes.
-
-Notes:
-
-{notes}
-
-Give the answer in this format:
-
-### 📌 Key Concepts
-
-### ⭐ Important Points
-
-### 📝 Short Revision Notes
-
-### ❓ Possible Exam Questions
-
-Use very simple language.
-"""
-
-                with st.spinner(
-                    "📝 Creating your summary..."
-                ):
-
-                    response = client.models.generate_content(
-                        model="gemini-3.6-flash",
-                        contents=prompt
-                    )
-
-                st.markdown(
-                    "## 📚 Your Summary"
-                )
-
-                st.markdown(response.text)
-
-            except Exception as e:
-
-                st.error(
-                    "❌ Could not summarize notes."
-                )
-
-                st.code(str(e))
-
-# --------------------------------------------------
-# QUIZ
-# --------------------------------------------------
-
-elif selected_tool == "🎯 Generate Quiz":
-
-    st.markdown(
-        "### 🎯 Generate a Practice Quiz"
-    )
-
-    quiz_topic = st.text_input(
-        "📚 Enter your topic",
-        placeholder="Example: Python Basics",
-        key="quiz_topic"
-    )
-
-    if st.button(
-        "🚀 Generate Quiz",
-        use_container_width=True,
-        key="quiz_button"
-    ):
-
-        if not quiz_topic.strip():
-
-            st.warning(
-                "⚠️ Please enter a topic first."
+            st.error(
+                "🔐 Gemini API key is missing. "
+                "Please add GEMINI_API_KEY in Streamlit Secrets."
             )
 
-        else:
+        except Exception as e:
 
-            try:
+            st.error(
+                "❌ Something went wrong while connecting to Gemini."
+            )
 
-                api_key = st.secrets["GEMINI_API_KEY"]
-
-                client = genai.Client(
-                    api_key=api_key
-                )
-
-                prompt = f"""
-Create a beginner-friendly quiz.
-
-Topic:
-
-{quiz_topic}
-
-Create 10 multiple-choice questions.
-
-For every question provide:
-
-Question
-
-A. Option
-B. Option
-C. Option
-D. Option
-
-Then provide the correct answer.
-
-Also provide a short explanation
-for each answer.
-"""
-
-                with st.spinner(
-                    "🎯 Creating your quiz..."
-                ):
-
-                    response = client.models.generate_content(
-                        model="gemini-3.6-flash",
-                        contents=prompt
-                    )
-
-                st.markdown(
-                    "## 🎯 Your Practice Quiz"
-                )
-
-                st.markdown(response.text)
-
-            except Exception as e:
-
-                st.error(
-                    "❌ Could not generate quiz."
-                )
-
-                st.code(str(e))
+            st.code(str(e))
 
 # --------------------------------------------------
 # STUDY TIPS
 # --------------------------------------------------
-
-st.markdown("---")
 
 st.markdown(
     "## 🌟 Smart Study Tips"
