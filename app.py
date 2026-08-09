@@ -48,7 +48,7 @@ if tool == "Ask a Question":
             with st.spinner("AI is thinking..."):
 
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.5-flash-lite",
                     contents=f"""
                     You are a helpful AI Study Assistant.
 
@@ -83,7 +83,7 @@ elif tool == "Explain a Topic":
             with st.spinner("Preparing explanation..."):
 
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.5-flash-lite",
                     contents=f"""
                     Explain {topic} to a beginner.
 
@@ -115,7 +115,7 @@ elif tool == "Summarize Notes":
             with st.spinner("Summarizing..."):
 
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.5-flash-lite",
                     contents=f"""
                     Summarize these study notes.
 
@@ -156,7 +156,7 @@ elif tool == "Generate Quiz":
             with st.spinner("Creating quiz..."):
 
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.5-flash-lite",
                     contents=f"""
                     Create {number} MCQs about {topic}.
 
@@ -194,7 +194,7 @@ elif tool == "Create Study Plan":
             with st.spinner("Creating study plan..."):
 
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.5-flash-lite",
                     contents=f"""
                     Create a {days}-day study plan for {subject}.
 
