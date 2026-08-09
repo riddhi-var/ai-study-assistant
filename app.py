@@ -1,18 +1,6 @@
 import streamlit as st
+from openai import OpenAI
 
-st.set_page_config(
-    page_title="AI Study Assistant",
-    page_icon="📚"
+client = OpenAI(
+    api_key=st.secrets["OPENAI_API_KEY"]
 )
-
-st.title("📚 AI Study Assistant")
-
-st.write("🎉 Your Streamlit app is working!")
-
-name = st.text_input("Enter your name")
-
-if st.button("Start Studying"):
-    if name:
-        st.success(f"Welcome, {name}! Let's start studying 🚀")
-    else:
-        st.warning("Please enter your name.")
