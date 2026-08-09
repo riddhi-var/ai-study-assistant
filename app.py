@@ -13,36 +13,47 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# CUSTOM DESIGN
+# NAVY BLUE DESIGN
 # --------------------------------------------------
 
 st.markdown("""
 <style>
 
+.stApp {
+    background-color: #F5F8FC;
+}
+
 .main-title {
     font-size: 48px;
     font-weight: 800;
-    color: #312e81;
+    color: #0B1F3A;
     margin-bottom: 5px;
 }
 
 .subtitle {
     font-size: 22px;
-    color: #6366f1;
+    color: #173B67;
 }
 
 .hero-small {
     font-size: 17px;
-    color: #64748b;
+    color: #52657A;
+}
+
+.sidebar-title {
+    font-size: 25px;
+    font-weight: 800;
+    color: #0B1F3A;
 }
 
 .feature-card {
     padding: 25px;
     border-radius: 18px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: white;
+    border: 1px solid #D7E0EA;
     min-height: 150px;
     text-align: center;
+    box-shadow: 0 5px 18px rgba(11,31,58,0.08);
 }
 
 .feature-icon {
@@ -52,32 +63,54 @@ st.markdown("""
 .feature-title {
     font-size: 21px;
     font-weight: 700;
-    color: #312e81;
+    color: #0B1F3A;
 }
 
 .feature-text {
-    color: #475569;
+    color: #52657A;
 }
 
 .answer-box {
     padding: 15px;
     border-radius: 15px;
-    background: #eef2ff;
+    background: #EAF2FF;
+    border-left: 6px solid #0B1F3A;
     margin-top: 20px;
 }
 
 .tip-card {
     padding: 20px;
     border-radius: 15px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: white;
+    border: 1px solid #D7E0EA;
     min-height: 130px;
+    box-shadow: 0 5px 18px rgba(11,31,58,0.06);
 }
 
-.sidebar-title {
-    font-size: 25px;
-    font-weight: 800;
-    color: #312e81;
+div.stButton > button {
+    background-color: #0B1F3A;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 700;
+    min-height: 45px;
+}
+
+div.stButton > button:hover {
+    background-color: #173B67;
+    color: white;
+    border: none;
+}
+
+div[data-testid="stTextArea"] textarea {
+    border: 2px solid #B8C7D9;
+    border-radius: 12px;
+}
+
+div[data-testid="stTextInput"] input {
+    border: 2px solid #B8C7D9;
+    border-radius: 12px;
 }
 
 </style>
@@ -87,13 +120,36 @@ st.markdown("""
 # IMAGE URLS
 # --------------------------------------------------
 
-student_image = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=85"
+student_image = (
+    "https://images.unsplash.com/"
+    "photo-1523240795612-9a054b0db644?"
+    "auto=format&fit=crop&w=1000&q=85"
+)
 
-study_image = "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=85"
+study_image = (
+    "https://images.unsplash.com/"
+    "photo-1434030216411-0b793f4b4173?"
+    "auto=format&fit=crop&w=1000&q=85"
+)
 
-books_image = "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=900&q=85"
+books_image = (
+    "https://images.unsplash.com/"
+    "photo-1495446815901-a7297e633e8d?"
+    "auto=format&fit=crop&w=1000&q=85"
+)
 
-ai_image = "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=900&q=85"
+ai_image = (
+    "https://images.unsplash.com/"
+    "photo-1535378917042-10a22c95931a?"
+    "auto=format&fit=crop&w=1000&q=85"
+)
+
+# --------------------------------------------------
+# SESSION STATE
+# --------------------------------------------------
+
+if "selected_tool" not in st.session_state:
+    st.session_state.selected_tool = "💬 Ask AI"
 
 # --------------------------------------------------
 # HEADER
@@ -102,7 +158,7 @@ ai_image = "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=fo
 st.markdown("""
 <div style="text-align:center;">
 
-<div style="font-size:55px;">📚</div>
+<div style="font-size:60px;">📚</div>
 
 <div class="main-title">
 AI Study Assistant
@@ -132,15 +188,35 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-    st.markdown("### 🧠 Study Tools")
+    st.markdown("### 🧠 Choose Your Tool")
 
-    st.info("💬 Ask AI\n\nAsk any study question.")
+    if st.button(
+        "💬 Ask AI",
+        use_container_width=True,
+        key="side_ask"
+    ):
+        st.session_state.selected_tool = "💬 Ask AI"
 
-    st.success("📖 Explain Topic\n\nUnderstand difficult topics.")
+    if st.button(
+        "📖 Explain Topic",
+        use_container_width=True,
+        key="side_explain"
+    ):
+        st.session_state.selected_tool = "📖 Explain Topic"
 
-    st.warning("📝 Summarize\n\nGet simple notes.")
+    if st.button(
+        "📝 Summarize Notes",
+        use_container_width=True,
+        key="side_summary"
+    ):
+        st.session_state.selected_tool = "📝 Summarize"
 
-    st.error("🎯 Generate Quiz\n\nPractice your knowledge.")
+    if st.button(
+        "🎯 Generate Quiz",
+        use_container_width=True,
+        key="side_quiz"
+    ):
+        st.session_state.selected_tool = "🎯 Generate Quiz"
 
     st.markdown("---")
 
@@ -192,6 +268,14 @@ with col1:
     </div>
     """, unsafe_allow_html=True)
 
+    if st.button(
+        "💬 Ask AI",
+        use_container_width=True,
+        key="feature_ask"
+    ):
+        st.session_state.selected_tool = "💬 Ask AI"
+        st.rerun()
+
 with col2:
 
     st.markdown("""
@@ -209,6 +293,14 @@ with col2:
 
     </div>
     """, unsafe_allow_html=True)
+
+    if st.button(
+        "📖 Explain Topic",
+        use_container_width=True,
+        key="feature_explain"
+    ):
+        st.session_state.selected_tool = "📖 Explain Topic"
+        st.rerun()
 
 with col3:
 
@@ -228,6 +320,14 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
+    if st.button(
+        "📝 Summarize",
+        use_container_width=True,
+        key="feature_summary"
+    ):
+        st.session_state.selected_tool = "📝 Summarize"
+        st.rerun()
+
 with col4:
 
     st.markdown("""
@@ -246,8 +346,16 @@ with col4:
     </div>
     """, unsafe_allow_html=True)
 
+    if st.button(
+        "🎯 Generate Quiz",
+        use_container_width=True,
+        key="feature_quiz"
+    ):
+        st.session_state.selected_tool = "🎯 Generate Quiz"
+        st.rerun()
+
 # --------------------------------------------------
-# STUDY IMAGE SECTION
+# IMAGE SECTION
 # --------------------------------------------------
 
 st.write("")
@@ -255,7 +363,6 @@ st.write("")
 image1, image2, image3 = st.columns(3)
 
 with image1:
-
     st.image(
         student_image,
         caption="🧑‍🎓 Ask your doubts and learn",
@@ -263,7 +370,6 @@ with image1:
     )
 
 with image2:
-
     st.image(
         study_image,
         caption="📖 Learn smarter every day",
@@ -271,7 +377,6 @@ with image2:
     )
 
 with image3:
-
     st.image(
         books_image,
         caption="📚 Build your knowledge",
@@ -279,51 +384,77 @@ with image3:
     )
 
 # --------------------------------------------------
-# AI TUTOR
+# SELECTED TOOL
 # --------------------------------------------------
+
+st.markdown("---")
+
+selected_tool = st.session_state.selected_tool
 
 st.markdown(
-    "## 🤖 Ask Your AI Tutor"
-)
-
-st.image(
-    ai_image,
-    caption="🤖 Your AI Study Partner",
-    use_container_width=True
-)
-
-question = st.text_area(
-    "💭 Your Question",
-    placeholder="Example: Explain Python variables in very simple language...",
-    height=150
+    f"## {selected_tool}"
 )
 
 # --------------------------------------------------
-# ASK AI BUTTON
+# ASK AI / EXPLAIN TOPIC
 # --------------------------------------------------
 
-if st.button(
-    "🤖  Ask AI",
-    use_container_width=True
-):
+if selected_tool in ["💬 Ask AI", "📖 Explain Topic"]:
 
-    if not question.strip():
+    st.image(
+        ai_image,
+        caption="🤖 Your AI Study Partner",
+        use_container_width=True
+    )
 
-        st.warning(
-            "⚠️ Please enter a question first."
+    if selected_tool == "💬 Ask AI":
+
+        question_label = "💭 Your Question"
+
+        placeholder = (
+            "Example: Explain Python variables "
+            "in very simple language..."
         )
 
     else:
 
-        try:
+        question_label = "📖 Topic to Explain"
 
-            api_key = st.secrets["GEMINI_API_KEY"]
+        placeholder = (
+            "Example: Explain recursion in Python "
+            "with an easy example..."
+        )
 
-            client = genai.Client(
-                api_key=api_key
+    question = st.text_area(
+        question_label,
+        placeholder=placeholder,
+        height=150,
+        key="question_box"
+    )
+
+    if st.button(
+        "🤖 Ask AI",
+        use_container_width=True,
+        key="main_ask_ai"
+    ):
+
+        if not question.strip():
+
+            st.warning(
+                "⚠️ Please enter your question first."
             )
 
-            prompt = f"""
+        else:
+
+            try:
+
+                api_key = st.secrets["GEMINI_API_KEY"]
+
+                client = genai.Client(
+                    api_key=api_key
+                )
+
+                prompt = f"""
 You are an AI Study Assistant.
 
 The student asked:
@@ -354,49 +485,232 @@ Use emojis where helpful.
 Avoid unnecessarily complicated words.
 """
 
-            with st.spinner(
-                "🤖 AI is preparing your answer..."
-            ):
+                with st.spinner(
+                    "🤖 AI is preparing your answer..."
+                ):
 
-                response = client.models.generate_content(
-                    model="gemini-3.6-flash",
-                    contents=prompt
+                    response = client.models.generate_content(
+                        model="gemini-3.6-flash",
+                        contents=prompt
+                    )
+
+                st.markdown("""
+                <div class="answer-box">
+
+                <h2 style="color:#0B1F3A;">
+                🤖 AI Tutor Answer
+                </h2>
+
+                </div>
+                """, unsafe_allow_html=True)
+
+                st.markdown(response.text)
+
+                st.success(
+                    "✅ Done! Keep learning 🚀"
                 )
 
-            st.markdown("""
-            <div class="answer-box">
+            except KeyError:
 
-            <h2 style="color:#312e81;">
-            📖 AI Tutor Answer
-            </h2>
+                st.error(
+                    "🔐 Gemini API key is missing. "
+                    "Please add GEMINI_API_KEY "
+                    "in Streamlit Secrets."
+                )
 
-            </div>
-            """, unsafe_allow_html=True)
+            except Exception as e:
 
-            st.markdown(response.text)
+                st.error(
+                    "❌ Something went wrong "
+                    "while connecting to Gemini."
+                )
 
-            st.success(
-                "✅ Done! Keep learning 🚀"
-            )
-
-        except KeyError:
-
-            st.error(
-                "🔐 Gemini API key is missing. "
-                "Please add GEMINI_API_KEY in Streamlit Secrets."
-            )
-
-        except Exception as e:
-
-            st.error(
-                "❌ Something went wrong while connecting to Gemini."
-            )
-
-            st.code(str(e))
+                st.code(str(e))
 
 # --------------------------------------------------
-# STUDY TIPS
+# SUMMARIZE
 # --------------------------------------------------
+
+elif selected_tool == "📝 Summarize":
+
+    st.image(
+        books_image,
+        caption="📝 Turn your notes into simple revision points",
+        use_container_width=True
+    )
+
+    st.markdown(
+        "### 📝 Paste your notes below"
+    )
+
+    notes = st.text_area(
+        "Your Notes",
+        placeholder="Paste your study notes here...",
+        height=220,
+        key="notes_box"
+    )
+
+    if st.button(
+        "✨ Summarize Notes",
+        use_container_width=True,
+        key="summarize_button"
+    ):
+
+        if not notes.strip():
+
+            st.warning(
+                "⚠️ Please enter your notes first."
+            )
+
+        else:
+
+            try:
+
+                api_key = st.secrets["GEMINI_API_KEY"]
+
+                client = genai.Client(
+                    api_key=api_key
+                )
+
+                prompt = f"""
+Summarize these study notes.
+
+Notes:
+
+{notes}
+
+Give the answer in this format:
+
+### 📌 Key Concepts
+
+### ⭐ Important Points
+
+### 📝 Short Revision Notes
+
+### ❓ Possible Exam Questions
+
+Use very simple language.
+"""
+
+                with st.spinner(
+                    "📝 Creating your summary..."
+                ):
+
+                    response = client.models.generate_content(
+                        model="gemini-3.6-flash",
+                        contents=prompt
+                    )
+
+                st.markdown(
+                    "## 📚 Your Summary"
+                )
+
+                st.markdown(response.text)
+
+            except Exception as e:
+
+                st.error(
+                    "❌ Could not summarize notes."
+                )
+
+                st.code(str(e))
+
+# --------------------------------------------------
+# QUIZ
+# --------------------------------------------------
+
+elif selected_tool == "🎯 Generate Quiz":
+
+    st.image(
+        study_image,
+        caption="🎯 Practice your knowledge with AI-generated questions",
+        use_container_width=True
+    )
+
+    st.markdown(
+        "### 🎯 Generate a Practice Quiz"
+    )
+
+    quiz_topic = st.text_input(
+        "📚 Enter your topic",
+        placeholder="Example: Python Basics",
+        key="quiz_topic_box"
+    )
+
+    if st.button(
+        "🚀 Generate Quiz",
+        use_container_width=True,
+        key="generate_quiz_button"
+    ):
+
+        if not quiz_topic.strip():
+
+            st.warning(
+                "⚠️ Please enter a topic first."
+            )
+
+        else:
+
+            try:
+
+                api_key = st.secrets["GEMINI_API_KEY"]
+
+                client = genai.Client(
+                    api_key=api_key
+                )
+
+                prompt = f"""
+Create a beginner-friendly quiz.
+
+Topic:
+
+{quiz_topic}
+
+Create 10 multiple-choice questions.
+
+For every question provide:
+
+Question
+
+A. Option
+B. Option
+C. Option
+D. Option
+
+Then provide the correct answer.
+
+Also provide a short explanation
+for each answer.
+"""
+
+                with st.spinner(
+                    "🎯 Creating your quiz..."
+                ):
+
+                    response = client.models.generate_content(
+                        model="gemini-3.6-flash",
+                        contents=prompt
+                    )
+
+                st.markdown(
+                    "## 🎯 Your Practice Quiz"
+                )
+
+                st.markdown(response.text)
+
+            except Exception as e:
+
+                st.error(
+                    "❌ Could not generate quiz."
+                )
+
+                st.code(str(e))
+
+# --------------------------------------------------
+# SMART STUDY TIPS
+# --------------------------------------------------
+
+st.markdown("---")
 
 st.markdown(
     "## 🌟 Smart Study Tips"
@@ -452,7 +766,9 @@ st.markdown("---")
 st.markdown("""
 <div style="text-align:center; padding:25px;">
 
-<h3>📚 AI Study Assistant</h3>
+<h3 style="color:#0B1F3A;">
+📚 AI Study Assistant
+</h3>
 
 <p>
 Made with 🐍 Python • 🎨 Streamlit • 🤖 Gemini AI
