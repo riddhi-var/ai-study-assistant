@@ -20,170 +20,175 @@ st.markdown("""
 <style>
 
 .stApp {
-    background:
-        radial-gradient(circle at 10% 10%, rgba(124, 58, 237, 0.18), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(14, 165, 233, 0.18), transparent 25%),
-        linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #f0fdfa 100%);
+    background: linear-gradient(135deg, #f8faff, #eef2ff);
 }
 
-/* Main container */
 .block-container {
-    max-width: 1200px;
     padding-top: 2rem;
-    padding-bottom: 3rem;
+    padding-bottom: 2rem;
 }
 
 /* Header */
 .hero {
-    padding: 35px 30px;
+    background: linear-gradient(135deg, #312e81, #4f46e5, #7c3aed);
+    padding: 38px 30px;
     border-radius: 28px;
-    background: linear-gradient(135deg, #312e81, #6d28d9, #0f766e);
-    color: white;
     text-align: center;
-    box-shadow: 0 18px 45px rgba(49, 46, 129, 0.25);
-    margin-bottom: 25px;
+    color: white;
+    box-shadow: 0 12px 35px rgba(79, 70, 229, 0.25);
+    margin-bottom: 30px;
+}
+
+.hero-icon {
+    font-size: 55px;
 }
 
 .hero h1 {
-    font-size: 45px;
-    margin-bottom: 8px;
+    font-size: 44px;
+    margin: 5px 0;
     font-weight: 800;
 }
 
 .hero p {
-    font-size: 18px;
-    margin: 5px;
+    font-size: 19px;
+    margin: 8px;
 }
 
 .hero-small {
-    font-size: 14px;
+    font-size: 15px !important;
     opacity: 0.9;
-}
-
-/* Section title */
-.section-title {
-    font-size: 27px;
-    font-weight: 800;
-    color: #312e81;
-    margin-top: 20px;
-    margin-bottom: 15px;
-}
-
-/* Cards */
-.card {
-    background: rgba(255,255,255,0.88);
-    padding: 22px;
-    border-radius: 20px;
-    border: 1px solid rgba(99,102,241,0.12);
-    box-shadow: 0 10px 28px rgba(15,23,42,0.08);
-    min-height: 150px;
-    margin-bottom: 15px;
-}
-
-.card h3 {
-    color: #312e81;
-    margin-bottom: 8px;
-}
-
-.card p {
-    color: #475569;
-    line-height: 1.6;
-}
-
-/* Ask area */
-.ask-box {
-    background: white;
-    padding: 28px;
-    border-radius: 25px;
-    box-shadow: 0 15px 40px rgba(15,23,42,0.10);
-    border: 1px solid #e0e7ff;
-    margin-top: 10px;
-    margin-bottom: 25px;
-}
-
-/* Buttons */
-.stButton > button {
-    width: 100%;
-    border-radius: 14px;
-    border: none;
-    padding: 12px 18px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #4f46e5, #7c3aed);
-    color: white;
-    box-shadow: 0 7px 18px rgba(79,70,229,0.22);
-    transition: 0.2s;
-}
-
-.stButton > button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(79,70,229,0.30);
-}
-
-/* Text input */
-.stTextArea textarea {
-    border-radius: 15px !important;
-    border: 2px solid #c7d2fe !important;
-    background: #fafaff !important;
 }
 
 /* Sidebar */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1e1b4b, #312e81, #164e63);
-}
-
-[data-testid="stSidebar"] * {
-    color: white !important;
+    background: linear-gradient(180deg, #eef2ff, #f5f3ff);
 }
 
 .sidebar-title {
+    background: linear-gradient(135deg, #312e81, #6366f1);
+    color: white;
+    padding: 18px;
+    border-radius: 16px;
     text-align: center;
-    font-size: 23px;
-    font-weight: 800;
+    font-size: 22px;
+    font-weight: 700;
     margin-bottom: 20px;
 }
 
-/* Answer */
-.answer-box {
-    background: white;
-    padding: 28px;
-    border-radius: 22px;
-    border-left: 6px solid #6366f1;
-    box-shadow: 0 10px 30px rgba(15,23,42,0.08);
-    margin-top: 20px;
+/* Section titles */
+.section-title {
+    color: #312e81;
+    font-size: 28px;
+    font-weight: 800;
+    margin-top: 25px;
+    margin-bottom: 18px;
 }
 
 /* Feature cards */
-.feature {
-    text-align: center;
-    padding: 22px 15px;
-    background: rgba(255,255,255,0.9);
+.feature-card {
+    background: white;
+    padding: 25px 18px;
     border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(15,23,42,0.07);
-    min-height: 145px;
+    text-align: center;
+    min-height: 155px;
+    border: 1px solid #e0e7ff;
+    box-shadow: 0 6px 20px rgba(30, 41, 59, 0.08);
+    transition: 0.2s;
 }
 
 .feature-icon {
     font-size: 38px;
+    margin-bottom: 8px;
 }
 
 .feature-title {
-    font-weight: 800;
     color: #312e81;
-    margin-top: 8px;
+    font-size: 19px;
+    font-weight: 700;
 }
 
 .feature-text {
-    font-size: 14px;
     color: #64748b;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+/* Tutor box */
+.tutor-box {
+    background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+    padding: 28px;
+    border-radius: 24px;
+    border: 1px solid #c7d2fe;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.tutor-title {
+    color: #312e81;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+/* Answer */
+.answer-box {
+    background: linear-gradient(135deg, #ecfdf5, #eff6ff);
+    padding: 20px;
+    border-radius: 20px;
+    border-left: 6px solid #4f46e5;
+    margin-top: 25px;
+}
+
+/* Tips */
+.tip-card {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    min-height: 145px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+}
+
+.tip-title {
+    color: #312e81;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.tip-text {
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* Buttons */
+.stButton > button {
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    font-weight: 700;
+    padding: 10px 20px;
+    min-height: 48px;
+    box-shadow: 0 5px 15px rgba(79,70,229,0.2);
+}
+
+.stButton > button:hover {
+    background: linear-gradient(135deg, #3730a3, #6d28d9);
+    color: white;
 }
 
 /* Footer */
 .footer {
+    margin-top: 45px;
+    padding: 30px;
     text-align: center;
-    color: #64748b;
-    margin-top: 35px;
-    padding: 20px;
-    font-size: 14px;
+    background: linear-gradient(135deg, #312e81, #4f46e5);
+    color: white;
+    border-radius: 22px;
+}
+
+.footer-title {
+    font-size: 24px;
+    font-weight: 800;
 }
 
 </style>
@@ -196,15 +201,18 @@ st.markdown("""
 st.markdown("""
 <div class="hero">
 
-    <div style="font-size:55px;">📚</div>
+<div class="hero-icon">📚</div>
 
-    <h1>AI Study Assistant</h1>
+<h1>AI Study Assistant</h1>
 
-    <p>Your personal AI tutor 🤖</p>
+<p>Your personal AI tutor 🤖</p>
 
-    <p class="hero-small">
-        Learn • Practice • Revise • Succeed ✨
-    </p>
+<p class="hero-small">
+✨ Learn &nbsp; • &nbsp;
+💡 Understand &nbsp; • &nbsp;
+📝 Practice &nbsp; • &nbsp;
+🎯 Succeed
+</p>
 
 </div>
 """, unsafe_allow_html=True)
@@ -222,13 +230,13 @@ with st.sidebar:
 
     st.markdown("### 🧠 Study Tools")
 
-    st.info("💬 Ask AI\n\nAsk any study question.")
+    st.info("💬 **Ask AI**\n\nAsk any study question.")
 
-    st.success("📖 Explain Topic\n\nUnderstand difficult topics.")
+    st.success("📖 **Explain Topic**\n\nUnderstand difficult topics.")
 
-    st.warning("📝 Summarize\n\nGet simple notes.")
+    st.warning("📝 **Summarize**\n\nGet simple notes.")
 
-    st.error("🎯 Generate Quiz\n\nPractice your knowledge.")
+    st.error("🎯 **Generate Quiz**\n\nPractice your knowledge.")
 
     st.markdown("---")
 
@@ -244,6 +252,8 @@ with st.sidebar:
     📝 Study-friendly notes
 
     🎯 Exam preparation
+
+    🚀 Beginner friendly
     """)
 
     st.markdown("---")
@@ -262,46 +272,74 @@ st.markdown(
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
+
     st.markdown("""
-    <div class="feature">
-        <div class="feature-icon">💬</div>
-        <div class="feature-title">Ask AI</div>
-        <div class="feature-text">
-            Ask questions about your subjects.
-        </div>
+    <div class="feature-card">
+
+    <div class="feature-icon">💬</div>
+
+    <div class="feature-title">
+    Ask AI
+    </div>
+
+    <div class="feature-text">
+    Ask questions about your subjects.
+    </div>
+
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
+
     st.markdown("""
-    <div class="feature">
-        <div class="feature-icon">📖</div>
-        <div class="feature-title">Explain</div>
-        <div class="feature-text">
-            Understand difficult concepts easily.
-        </div>
+    <div class="feature-card">
+
+    <div class="feature-icon">📖</div>
+
+    <div class="feature-title">
+    Explain
+    </div>
+
+    <div class="feature-text">
+    Understand difficult concepts easily.
+    </div>
+
     </div>
     """, unsafe_allow_html=True)
 
 with col3:
+
     st.markdown("""
-    <div class="feature">
-        <div class="feature-icon">📝</div>
-        <div class="feature-title">Summarize</div>
-        <div class="feature-text">
-            Turn long topics into simple notes.
-        </div>
+    <div class="feature-card">
+
+    <div class="feature-icon">📝</div>
+
+    <div class="feature-title">
+    Summarize
+    </div>
+
+    <div class="feature-text">
+    Turn long topics into simple notes.
+    </div>
+
     </div>
     """, unsafe_allow_html=True)
 
 with col4:
+
     st.markdown("""
-    <div class="feature">
-        <div class="feature-icon">🎯</div>
-        <div class="feature-title">Practice</div>
-        <div class="feature-text">
-            Generate questions for revision.
-        </div>
+    <div class="feature-card">
+
+    <div class="feature-icon">🎯</div>
+
+    <div class="feature-title">
+    Practice
+    </div>
+
+    <div class="feature-text">
+    Generate questions for revision.
+    </div>
+
     </div>
     """, unsafe_allow_html=True)
 
@@ -316,25 +354,27 @@ st.image(
     use_container_width=True
 )
 
+st.caption("👩‍🎓 Study smarter • Ask questions • Improve every day 🚀")
+
 # --------------------------------------------------
 # AI TUTOR
 # --------------------------------------------------
 
-st.markdown(
-    '<div class="section-title">🤖 Ask Your AI Tutor</div>',
-    unsafe_allow_html=True
-)
-
 st.markdown("""
-<div class="ask-box">
+<div class="tutor-box">
 
-<h3 style="color:#312e81;">
-💡 Ask me anything about your studies
-</h3>
+<div class="tutor-title">
+🤖 Ask Your AI Tutor
+</div>
 
-<p style="color:#64748b;">
-I can explain programming, mathematics, science,
-engineering and many other subjects in simple language.
+<p>
+💭 Don't understand a topic? No problem!
+Ask your AI tutor and get a simple explanation.
+</p>
+
+<p>
+🎓 You can ask about Python, Maths, Science, Engineering,
+or any other study topic.
 </p>
 
 </div>
@@ -342,7 +382,7 @@ engineering and many other subjects in simple language.
 
 question = st.text_area(
     "💭 Your Question",
-    placeholder="Example: Explain Python variables in very simple language...",
+    placeholder="✨ Example: Explain Python variables in very simple language...",
     height=150
 )
 
@@ -405,7 +445,15 @@ Avoid unnecessarily complicated words.
 
             st.markdown("""
             <div class="answer-box">
-            <h2 style="color:#312e81;">📖 AI Tutor Answer</h2>
+
+            <h2 style="color:#312e81;">
+            📖 AI Tutor Answer 🤖
+            </h2>
+
+            <p>
+            ✨ Here is your easy-to-understand answer:
+            </p>
+
             </div>
             """, unsafe_allow_html=True)
 
@@ -438,35 +486,53 @@ st.markdown(
 tip1, tip2, tip3 = st.columns(3)
 
 with tip1:
+
     st.markdown("""
-    <div class="card">
-        <h3>⏰ Study Regularly</h3>
-        <p>
-        Study for a small amount of time every day
-        instead of studying everything at the last moment.
-        </p>
+    <div class="tip-card">
+
+    <div class="tip-title">
+    ⏰ Study Regularly
+    </div>
+
+    <div class="tip-text">
+    Study for a small amount of time every day
+    instead of studying everything at the last moment.
+    </div>
+
     </div>
     """, unsafe_allow_html=True)
 
 with tip2:
+
     st.markdown("""
-    <div class="card">
-        <h3>🧠 Practice More</h3>
-        <p>
-        Practice questions regularly to improve
-        your understanding and confidence.
-        </p>
+    <div class="tip-card">
+
+    <div class="tip-title">
+    🧠 Practice More
+    </div>
+
+    <div class="tip-text">
+    Practice questions regularly to improve
+    your understanding and confidence.
+    </div>
+
     </div>
     """, unsafe_allow_html=True)
 
 with tip3:
+
     st.markdown("""
-    <div class="card">
-        <h3>🔄 Revise</h3>
-        <p>
-        Revise important concepts frequently
-        so you can remember them for longer.
-        </p>
+    <div class="tip-card">
+
+    <div class="tip-title">
+    🔄 Revise
+    </div>
+
+    <div class="tip-text">
+    Revise important concepts frequently
+    so you can remember them for longer.
+    </div>
+
     </div>
     """, unsafe_allow_html=True)
 
@@ -477,15 +543,30 @@ with tip3:
 st.markdown("""
 <div class="footer">
 
-📚 <b>AI Study Assistant</b>
+<div class="footer-title">
+📚 AI Study Assistant 🤖
+</div>
 
-<br>
+<p>
+Your personal AI tutor for smarter learning ✨
+</p>
 
-Made with 🐍 Python • 🎨 Streamlit • 🤖 Gemini AI
+<p>
+🐍 Python &nbsp; • &nbsp;
+🎨 Streamlit &nbsp; • &nbsp;
+🤖 Gemini AI
+</p>
 
-<br><br>
+<p>
+💬 Learn &nbsp; • &nbsp;
+📖 Practice &nbsp; • &nbsp;
+🎯 Revise &nbsp; • &nbsp;
+🏆 Succeed
+</p>
 
-Learn • Practice • Revise • Succeed 🚀
+<p>
+❤️ Made for students
+</p>
 
 </div>
 """, unsafe_allow_html=True)
