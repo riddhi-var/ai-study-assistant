@@ -2,9 +2,9 @@ import streamlit as st
 from google import genai
 from pypdf import PdfReader
 
-# ============================================================
+# =========================================================
 # PAGE CONFIG
-# ============================================================
+# =========================================================
 
 st.set_page_config(
     page_title="AI Study Assistant",
@@ -13,164 +13,239 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ============================================================
-# CUSTOM CSS
-# ============================================================
+# =========================================================
+# CUSTOM DESIGN
+# =========================================================
 
 st.markdown("""
 <style>
 
-    /* Main background */
+    /* ---------- MAIN PAGE ---------- */
+
     .stApp {
-        background:
-            radial-gradient(circle at top left, #312e81 0%, transparent 30%),
-            radial-gradient(circle at bottom right, #581c87 0%, transparent 30%),
-            #0f172a;
-        color: white;
+        background: #f4f8fc;
     }
 
-    /* Main content */
     .main .block-container {
         max-width: 1200px;
-        padding-top: 2rem;
-        padding-bottom: 3rem;
+        padding-top: 30px;
+        padding-bottom: 50px;
     }
 
-    /* Header */
+    /* ---------- HEADER ---------- */
+
     .hero {
         background: linear-gradient(
             135deg,
-            rgba(79,70,229,0.95),
-            rgba(124,58,237,0.95)
+            #0f4c81,
+            #147d92
         );
-        padding: 40px 25px;
-        border-radius: 25px;
+
+        padding: 38px 30px;
+        border-radius: 22px;
         text-align: center;
-        box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+
+        box-shadow:
+            0 8px 25px rgba(15, 76, 129, 0.20);
+
         margin-bottom: 30px;
     }
 
     .hero h1 {
-        color: white;
-        font-size: 45px;
-        margin: 0;
+        color: white !important;
+        font-size: 44px;
         font-weight: 800;
+        margin: 0;
+        letter-spacing: 0.5px;
     }
 
     .hero p {
-        color: #e0e7ff;
-        font-size: 20px;
-        margin-top: 10px;
+        color: #e8f7fa !important;
+        font-size: 19px;
+        margin-top: 12px;
+        line-height: 1.6;
     }
 
-    /* Cards */
+    /* ---------- SECTION TITLE ---------- */
+
+    .section-title {
+        color: #123b5d;
+        font-size: 30px;
+        font-weight: 800;
+        margin-top: 10px;
+        margin-bottom: 18px;
+    }
+
+    /* ---------- CARDS ---------- */
+
     .card {
-        background: rgba(30,41,59,0.85);
-        border: 1px solid rgba(148,163,184,0.25);
+        background: white;
+        border: 1px solid #dbe7f0;
         border-radius: 18px;
         padding: 25px;
-        margin: 15px 0;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.20);
+
+        box-shadow:
+            0 5px 18px rgba(20, 55, 80, 0.08);
+
+        margin-bottom: 20px;
     }
 
     .card h3 {
-        color: #c4b5fd;
+        color: #0f4c81;
+        margin-top: 0;
     }
 
-    /* Section title */
-    .section-title {
-        color: #c4b5fd;
-        font-size: 28px;
-        font-weight: 700;
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-    /* Buttons */
-    .stButton > button {
-        width: 100%;
-        border-radius: 12px;
-        border: none;
-        padding: 12px 20px;
-        background: linear-gradient(90deg, #6366f1, #8b5cf6);
-        color: white;
+    .card p {
+        color: #526579;
         font-size: 16px;
-        font-weight: 700;
-        transition: 0.3s;
     }
 
-    .stButton > button:hover {
-        background: linear-gradient(90deg, #8b5cf6, #a855f7);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(139,92,246,0.35);
-    }
+    /* ---------- SIDEBAR ---------- */
 
-    /* Text areas */
-    .stTextArea textarea,
-    .stTextInput input {
-        background-color: #1e293b !important;
-        color: white !important;
-        border: 1px solid #6366f1 !important;
-        border-radius: 12px !important;
-    }
-
-    /* File uploader */
-    [data-testid="stFileUploader"] {
-        background: rgba(30,41,59,0.8);
-        border-radius: 15px;
-        padding: 10px;
-    }
-
-    /* Sidebar */
     [data-testid="stSidebar"] {
-        background: linear-gradient(
-            180deg,
-            #111827,
-            #1e1b4b
-        );
+        background: #ffffff;
+        border-right: 1px solid #d9e5ee;
+    }
+
+    [data-testid="stSidebar"] * {
+        color: #173b57 !important;
     }
 
     [data-testid="stSidebar"] h1,
     [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3 {
-        color: #c4b5fd;
+        color: #0f4c81 !important;
     }
 
-    /* Info boxes */
-    [data-testid="stAlert"] {
-        border-radius: 12px;
+    /* Sidebar radio buttons */
+
+    [data-testid="stSidebar"] .stRadio label {
+        font-weight: 600;
     }
 
-    /* Footer */
+    /* ---------- BUTTONS ---------- */
+
+    .stButton > button {
+        width: 100%;
+
+        background: #147d92;
+        color: white !important;
+
+        border: none;
+        border-radius: 10px;
+
+        padding: 12px 20px;
+
+        font-size: 16px;
+        font-weight: 700;
+
+        transition: 0.2s;
+    }
+
+    .stButton > button:hover {
+        background: #0f6477;
+        color: white !important;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 6px 15px rgba(20, 125, 146, 0.25);
+    }
+
+    /* ---------- INPUTS ---------- */
+
+    .stTextInput input,
+    .stTextArea textarea {
+
+        background: white !important;
+
+        color: #173b57 !important;
+
+        border: 1px solid #cbdce8 !important;
+
+        border-radius: 10px !important;
+    }
+
+    .stTextInput input:focus,
+    .stTextArea textarea:focus {
+
+        border: 2px solid #147d92 !important;
+    }
+
+    /* ---------- FILE UPLOADER ---------- */
+
+    [data-testid="stFileUploader"] {
+
+        background: white;
+
+        border: 1px dashed #9dbccc;
+
+        border-radius: 15px;
+
+        padding: 12px;
+    }
+
+    /* ---------- SELECT BOX ---------- */
+
+    div[data-baseweb="select"] > div {
+
+        background-color: white !important;
+
+        border-radius: 10px !important;
+
+        border-color: #cbdce8 !important;
+    }
+
+    /* ---------- FOOTER ---------- */
+
     .footer {
+
         text-align: center;
-        color: #94a3b8;
+
+        color: #6d8192;
+
         margin-top: 50px;
-        padding: 20px;
-        border-top: 1px solid #334155;
+
+        padding: 25px;
+
+        border-top: 1px solid #d9e5ee;
+    }
+
+    /* ---------- INFO BOX ---------- */
+
+    [data-testid="stAlert"] {
+
+        border-radius: 12px;
     }
 
 </style>
 """, unsafe_allow_html=True)
 
 
-# ============================================================
+# =========================================================
 # GEMINI API
-# ============================================================
+# =========================================================
 
 if "GEMINI_API_KEY" not in st.secrets:
+
     st.error("❌ Gemini API key is missing.")
-    st.info("Go to Streamlit → Manage app → Settings → Secrets.")
+
+    st.info(
+        "Go to Streamlit → Manage app → Settings → Secrets "
+        "and add GEMINI_API_KEY."
+    )
+
     st.stop()
+
 
 client = genai.Client(
     api_key=st.secrets["GEMINI_API_KEY"]
 )
 
 
-# ============================================================
-# HERO HEADER
-# ============================================================
+# =========================================================
+# HEADER
+# =========================================================
 
 st.markdown("""
 <div class="hero">
@@ -187,15 +262,15 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ============================================================
+# =========================================================
 # SIDEBAR
-# ============================================================
+# =========================================================
 
 with st.sidebar:
 
-    st.markdown("## 🎓 Study Center")
+    st.markdown("## 📚 Study Assistant")
 
-    st.write("Choose what you want to do:")
+    st.write("Choose a tool:")
 
     tool = st.radio(
         "Study Tools",
@@ -214,18 +289,26 @@ with st.sidebar:
     st.markdown("### 💡 Study Tip")
 
     st.info(
-        "Study a little every day instead of trying to learn "
-        "everything at the last moment."
+        "Small daily study sessions are better "
+        "than last-minute preparation."
     )
 
     st.divider()
 
-    st.caption("🐍 Python + Streamlit + Gemini")
+    st.markdown("### 🛠️ Technology")
+
+    st.write("🐍 Python")
+    st.write("🎈 Streamlit")
+    st.write("🤖 Gemini AI")
+
+    st.divider()
+
+    st.caption("Made for students ❤️")
 
 
-# ============================================================
+# =========================================================
 # ASK AI
-# ============================================================
+# =========================================================
 
 if tool == "💬 Ask AI":
 
@@ -236,10 +319,14 @@ if tool == "💬 Ask AI":
 
     st.markdown("""
     <div class="card">
-        <h3>🤖 Ask me anything about your studies!</h3>
+
+        <h3>🤖 What would you like to learn?</h3>
+
         <p>
-        Get simple explanations, examples and important points.
+            Ask questions about programming, mathematics,
+            science, engineering or any other subject.
         </p>
+
     </div>
     """, unsafe_allow_html=True)
 
@@ -259,40 +346,54 @@ if tool == "💬 Ask AI":
 
             with st.spinner("🤖 AI is thinking..."):
 
-                response = client.models.generate_content(
-                    model="gemini-3.5-flash-lite",
-                    contents=f"""
-                    You are a friendly AI Study Assistant.
+                try:
 
-                    Answer the student's question in very simple,
-                    beginner-friendly language.
+                    response = client.models.generate_content(
 
-                    Question:
-                    {question}
+                        model="gemini-3.5-flash-lite",
 
-                    Give:
-                    1. Simple Explanation
-                    2. Example
-                    3. Important Points
-                    4. Short Summary
-                    """
-                )
+                        contents=f"""
+You are a friendly AI Study Assistant.
 
-            st.markdown("### 📖 AI Answer")
+Answer the student's question using very simple,
+beginner-friendly language.
 
-            st.markdown(
-                '<div class="card">',
-                unsafe_allow_html=True
-            )
+Question:
+{question}
 
-            st.write(response.text)
+Give the answer using:
 
-            st.markdown("</div>", unsafe_allow_html=True)
+1. 📖 Simple Explanation
+2. 💡 Example
+3. ⭐ Important Points
+4. 📝 Short Summary
+"""
+                    )
+
+                    st.markdown("### 📖 AI Answer")
+
+                    st.markdown(
+                        '<div class="card">',
+                        unsafe_allow_html=True
+                    )
+
+                    st.write(response.text)
+
+                    st.markdown(
+                        "</div>",
+                        unsafe_allow_html=True
+                    )
+
+                except Exception as e:
+
+                    st.error("❌ Something went wrong.")
+
+                    st.code(str(e))
 
 
-# ============================================================
+# =========================================================
 # ASK FROM PDF
-# ============================================================
+# =========================================================
 
 elif tool == "📄 Ask from PDF":
 
@@ -301,19 +402,28 @@ elif tool == "📄 Ask from PDF":
         unsafe_allow_html=True
     )
 
-    st.write(
-        "Upload your notes or textbook PDF and ask questions from it."
-    )
+    st.markdown("""
+    <div class="card">
+
+        <h3>📚 Upload Your Study Material</h3>
+
+        <p>
+            Upload your PDF notes or textbook and ask
+            questions directly from your material.
+        </p>
+
+    </div>
+    """, unsafe_allow_html=True)
 
     uploaded_file = st.file_uploader(
-        "📎 Upload your study PDF",
+        "📎 Upload PDF",
         type=["pdf"]
     )
 
     if uploaded_file:
 
         st.success(
-            f"✅ {uploaded_file.name} uploaded successfully!"
+            f"✅ {uploaded_file.name} uploaded!"
         )
 
         reader = PdfReader(uploaded_file)
@@ -325,15 +435,16 @@ elif tool == "📄 Ask from PDF":
             text = page.extract_text()
 
             if text:
+
                 pdf_text += text + "\n"
 
         st.info(
-            f"📄 Total pages: {len(reader.pages)}"
+            f"📄 Pages found: {len(reader.pages)}"
         )
 
         question = st.text_area(
-            "💭 Ask something about your PDF",
-            placeholder="Example: Explain the important points of this chapter.",
+            "💭 Ask a question from this PDF",
+            placeholder="Example: What are the important points?",
             height=130
         )
 
@@ -341,60 +452,71 @@ elif tool == "📄 Ask from PDF":
 
             if not question.strip():
 
-                st.warning("⚠️ Please enter a question.")
+                st.warning("⚠️ Enter a question.")
 
             elif not pdf_text.strip():
 
                 st.error(
-                    "❌ Could not extract text from this PDF."
+                    "❌ No readable text found in this PDF."
                 )
 
             else:
 
-                with st.spinner("📚 Reading your study material..."):
+                with st.spinner(
+                    "📚 Reading your study material..."
+                ):
 
-                    context = pdf_text[:50000]
+                    try:
 
-                    response = client.models.generate_content(
-                        model="gemini-3.5-flash-lite",
-                        contents=f"""
-                        You are an AI Study Assistant.
+                        response = client.models.generate_content(
 
-                        Use the study material below to answer
-                        the student's question.
+                            model="gemini-3.5-flash-lite",
 
-                        STUDY MATERIAL:
+                            contents=f"""
+You are an AI Study Assistant.
 
-                        {context}
+Use the following study material to answer
+the student's question.
 
-                        STUDENT QUESTION:
+STUDY MATERIAL:
 
-                        {question}
+{pdf_text[:50000]}
 
-                        Instructions:
-                        - Use simple language.
-                        - Give a clear answer.
-                        - Use examples when useful.
-                        - If the answer is not present in the PDF,
-                          clearly say so.
-                        """
-                    )
+QUESTION:
 
-                st.markdown("### 📖 Answer")
+{question}
 
-                st.markdown(
-                    '<div class="card">',
-                    unsafe_allow_html=True
-                )
+Use simple language and examples.
 
-                st.write(response.text)
+If the answer is not found in the material,
+clearly tell the student.
+"""
+                        )
 
-                st.markdown("</div>", unsafe_allow_html=True)
+                        st.markdown("### 📖 Answer")
+
+                        st.markdown(
+                            '<div class="card">',
+                            unsafe_allow_html=True
+                        )
+
+                        st.write(response.text)
+
+                        st.markdown(
+                            "</div>",
+                            unsafe_allow_html=True
+                        )
+
+                    except Exception as e:
+
+                        st.error("❌ AI error.")
+
+                        st.code(str(e))
 
 
-# ============================================================
+# =========================================================
 # EXPLAIN TOPIC
-# ============================================================
+# =========================================================
 
 elif tool == "📖 Explain Topic":
 
@@ -404,7 +526,7 @@ elif tool == "📖 Explain Topic":
     )
 
     topic = st.text_input(
-        "📚 Enter a topic",
+        "📚 Enter Topic",
         placeholder="Example: Python Functions"
     )
 
@@ -412,43 +534,58 @@ elif tool == "📖 Explain Topic":
 
         if not topic.strip():
 
-            st.warning("⚠️ Please enter a topic.")
+            st.warning("⚠️ Enter a topic first.")
 
         else:
 
-            with st.spinner("📖 Preparing explanation..."):
+            with st.spinner(
+                "📖 Preparing your explanation..."
+            ):
 
-                response = client.models.generate_content(
-                    model="gemini-3.5-flash-lite",
-                    contents=f"""
-                    Explain {topic} to a beginner.
+                try:
 
-                    Include:
+                    response = client.models.generate_content(
 
-                    1. Definition
-                    2. Simple explanation
-                    3. Real-life example
-                    4. Programming/example if relevant
-                    5. Important points
-                    6. Short summary
-                    """
-                )
+                        model="gemini-3.5-flash-lite",
 
-            st.markdown("### 📚 Explanation")
+                        contents=f"""
+Explain {topic} to a beginner.
 
-            st.markdown(
-                '<div class="card">',
-                unsafe_allow_html=True
-            )
+Include:
 
-            st.write(response.text)
+1. Definition
+2. Simple Explanation
+3. Real-Life Example
+4. Example/Code if relevant
+5. Important Points
+6. Short Summary
+"""
+                    )
 
-            st.markdown("</div>", unsafe_allow_html=True)
+                    st.markdown("### 📚 Explanation")
+
+                    st.markdown(
+                        '<div class="card">',
+                        unsafe_allow_html=True
+                    )
+
+                    st.write(response.text)
+
+                    st.markdown(
+                        "</div>",
+                        unsafe_allow_html=True
+                    )
+
+                except Exception as e:
+
+                    st.error("❌ AI error.")
+
+                    st.code(str(e))
 
 
-# ============================================================
+# =========================================================
 # SUMMARIZE NOTES
-# ============================================================
+# =========================================================
 
 elif tool == "📝 Summarize Notes":
 
@@ -458,8 +595,8 @@ elif tool == "📝 Summarize Notes":
     )
 
     notes = st.text_area(
-        "📚 Paste your notes here",
-        placeholder="Paste your chapter notes...",
+        "📚 Paste Your Notes",
+        placeholder="Paste your chapter notes here...",
         height=250
     )
 
@@ -467,45 +604,63 @@ elif tool == "📝 Summarize Notes":
 
         if not notes.strip():
 
-            st.warning("⚠️ Please paste your notes.")
+            st.warning("⚠️ Paste your notes first.")
 
         else:
 
-            with st.spinner("🧠 Creating your summary..."):
+            with st.spinner(
+                "🧠 Creating your summary..."
+            ):
 
-                response = client.models.generate_content(
-                    model="gemini-3.5-flash-lite",
-                    contents=f"""
-                    Summarize the following study notes.
+                try:
 
-                    NOTES:
+                    response = client.models.generate_content(
 
-                    {notes}
+                        model="gemini-3.5-flash-lite",
 
-                    Give:
+                        contents=f"""
+Summarize these study notes.
 
-                    📌 Important Points
-                    📖 Key Definitions
-                    🎯 Exam-Focused Points
-                    🧠 Easy Revision Notes
-                    """
-                )
+NOTES:
 
-            st.markdown("### 📋 Your Summary")
+{notes}
 
-            st.markdown(
-                '<div class="card">',
-                unsafe_allow_html=True
-            )
+Create:
 
-            st.write(response.text)
+📌 Important Points
 
-            st.markdown("</div>", unsafe_allow_html=True)
+📖 Key Definitions
+
+🎯 Exam-Focused Points
+
+🧠 Easy Revision Notes
+"""
+                    )
+
+                    st.markdown("### 📋 Summary")
+
+                    st.markdown(
+                        '<div class="card">',
+                        unsafe_allow_html=True
+                    )
+
+                    st.write(response.text)
+
+                    st.markdown(
+                        "</div>",
+                        unsafe_allow_html=True
+                    )
+
+                except Exception as e:
+
+                    st.error("❌ AI error.")
+
+                    st.code(str(e))
 
 
-# ============================================================
+# =========================================================
 # QUIZ GENERATOR
-# ============================================================
+# =========================================================
 
 elif tool == "🎯 Generate Quiz":
 
@@ -521,56 +676,77 @@ elif tool == "🎯 Generate Quiz":
 
     number = st.slider(
         "Number of Questions",
-        min_value=5,
-        max_value=20,
-        value=10
+        5,
+        20,
+        10
     )
 
     if st.button("🎯 Generate Quiz"):
 
         if not topic.strip():
 
-            st.warning("⚠️ Please enter a topic.")
+            st.warning("⚠️ Enter a topic.")
 
         else:
 
-            with st.spinner("🎯 Creating your quiz..."):
+            with st.spinner(
+                "🎯 Creating your quiz..."
+            ):
 
-                response = client.models.generate_content(
-                    model="gemini-3.5-flash-lite",
-                    contents=f"""
-                    Create {number} MCQ questions about {topic}.
+                try:
 
-                    For every question provide:
+                    response = client.models.generate_content(
 
-                    Question
-                    A. Option
-                    B. Option
-                    C. Option
-                    D. Option
+                        model="gemini-3.5-flash-lite",
 
-                    Correct Answer
-                    Short Explanation
+                        contents=f"""
+Create {number} multiple-choice questions
+about {topic}.
 
-                    Make the questions suitable for students.
-                    """
-                )
+For every question provide:
 
-            st.markdown("### 🎯 Your Quiz")
+Question
 
-            st.markdown(
-                '<div class="card">',
-                unsafe_allow_html=True
-            )
+A. Option
 
-            st.write(response.text)
+B. Option
 
-            st.markdown("</div>", unsafe_allow_html=True)
+C. Option
+
+D. Option
+
+Correct Answer
+
+Short Explanation
+
+Make the quiz suitable for students.
+"""
+                    )
+
+                    st.markdown("### 🎯 Your Quiz")
+
+                    st.markdown(
+                        '<div class="card">',
+                        unsafe_allow_html=True
+                    )
+
+                    st.write(response.text)
+
+                    st.markdown(
+                        "</div>",
+                        unsafe_allow_html=True
+                    )
+
+                except Exception as e:
+
+                    st.error("❌ AI error.")
+
+                    st.code(str(e))
 
 
-# ============================================================
+# =========================================================
 # STUDY PLANNER
-# ============================================================
+# =========================================================
 
 elif tool == "📅 Study Planner":
 
@@ -608,48 +784,71 @@ elif tool == "📅 Study Planner":
 
         if not subject.strip():
 
-            st.warning("⚠️ Please enter a subject.")
+            st.warning("⚠️ Enter a subject.")
 
         else:
 
-            with st.spinner("📅 Creating your study plan..."):
+            with st.spinner(
+                "📅 Creating your study plan..."
+            ):
 
-                response = client.models.generate_content(
-                    model="gemini-3.5-flash-lite",
-                    contents=f"""
-                    Create a {days}-day study plan for:
+                try:
 
-                    Subject: {subject}
+                    response = client.models.generate_content(
 
-                    Study time:
-                    {hours} hours per day.
+                        model="gemini-3.5-flash-lite",
 
-                    Include:
+                        contents=f"""
+Create a {days}-day study plan.
 
-                    Day-by-day topics
-                    Study time
-                    Practice
-                    Revision
-                    Quiz/Test
-                    Final revision
-                    """
-                )
+Subject:
+{subject}
 
-            st.markdown("### 📅 Your Personalized Plan")
+Study time:
+{hours} hours per day.
 
-            st.markdown(
-                '<div class="card">',
-                unsafe_allow_html=True
-            )
+Include:
 
-            st.write(response.text)
+Day-by-day topics
 
-            st.markdown("</div>", unsafe_allow_html=True)
+Study time
+
+Practice
+
+Revision
+
+Quiz/Test
+
+Final revision
+"""
+                    )
+
+                    st.markdown(
+                        "### 📅 Your Personalized Study Plan"
+                    )
+
+                    st.markdown(
+                        '<div class="card">',
+                        unsafe_allow_html=True
+                    )
+
+                    st.write(response.text)
+
+                    st.markdown(
+                        "</div>",
+                        unsafe_allow_html=True
+                    )
+
+                except Exception as e:
+
+                    st.error("❌ AI error.")
+
+                    st.code(str(e))
 
 
-# ============================================================
+# =========================================================
 # FOOTER
-# ============================================================
+# =========================================================
 
 st.markdown("""
 <div class="footer">
@@ -658,11 +857,17 @@ st.markdown("""
 
     <br><br>
 
-    Made with ❤️ using Python 🐍 + Streamlit 🎈 + Gemini 🤖
+    Your personal AI tutor 🤖
 
-    <br>
+    <br><br>
 
-    Learn • Practice • Revise • Succeed 🚀
+    Built with 🐍 Python
+    • 🎈 Streamlit
+    • 🤖 Gemini AI
+
+    <br><br>
+
+    <b>Learn • Practice • Revise • Succeed 🚀</b>
 
 </div>
 """, unsafe_allow_html=True)
