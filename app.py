@@ -801,12 +801,11 @@ with st.sidebar:
 
 # ============================================================
 # HERO SECTION
-# ============================================================
+# ============================================================ 
 
 st.markdown("""
-<div class="hero">
-
-    <div class="hero-icon">📚</div>
+<div class="hero-icon">📚</div>
+""", unsafe_allow_html=True)
 
     <h1>AI Study Assistant</h1>
 
