@@ -916,7 +916,230 @@ Use simple language and focus on
 important concepts.
 """
 
-            with st.spinner("🧠 Creating flashcards..."):
+                        with st.spinner("🧠 Creating flashcards..."):
 
                 try:
-                    answer = ask_g
+                    answer = ask_gemini(prompt)
+
+                    st.markdown(
+                        """
+                        <div class="answer-box">
+                            <h2>🧠 Flashcards</h2>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                    st.markdown(answer)
+
+                except Exception as e:
+                    st.error("❌ Could not create flashcards.")
+                    st.code(str(e))
+
+
+# ============================================================
+# STUDY PLANNER
+# ============================================================
+
+elif st.session_state.tool == "plan":
+
+    st.markdown(
+        '<div class="section-title">📅 Smart Study Planner</div>',
+        unsafe_allow_html=True,
+    )
+
+    subject = st.text_input(
+        "📚 Subject",
+        placeholder="Example: Python",
+    )
+
+    days = st.number_input(
+        "📆 Number of Days",
+        min_value=1,
+        max_value=30,
+        value=7,
+    )
+
+    hours = st.number_input(
+        "⏰ Study Hours Per Day",
+        min_value=1,
+        max_value=12,
+        value=2,
+    )
+
+    level = st.selectbox(
+        "📊 Your Level",
+        [
+            "Beginner",
+            "Intermediate",
+            "Advanced",
+        ],
+    )
+
+    if st.button("🚀 Create Study Plan"):
+
+        if not subject.strip():
+            st.warning("⚠️ Enter a subject first.")
+
+        else:
+
+            prompt = f"""
+Create a realistic study plan.
+
+Subject:
+{subject}
+
+Number of days:
+{days}
+
+Study hours per day:
+{hours}
+
+Student level:
+{level}
+
+Create a day-by-day plan.
+
+Include:
+- Topics
+- Study time
+- Practice
+- Revision
+- Small daily goals
+
+Keep it beginner-friendly and practical.
+"""
+
+            with st.spinner("📅 Creating your study plan..."):
+
+                try:
+                    answer = ask_gemini(prompt)
+
+                    st.markdown(
+                        """
+                        <div class="answer-box">
+                            <h2>📅 Your Study Plan</h2>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                    st.markdown(answer)
+
+                except Exception as e:
+                    st.error("❌ Could not create study plan.")
+                    st.code(str(e))
+
+
+# ============================================================
+# POMODORO TIMER
+# ============================================================
+
+elif st.session_state.tool == "timer":
+
+    st.markdown(
+        '<div class="section-title">⏱️ Focus Timer</div>',
+        unsafe_allow_html=True,
+    )
+
+    st.write(
+        "Use the Pomodoro technique to study with focused sessions."
+    )
+
+    timer_minutes = st.slider(
+        "⏰ Timer Duration",
+        min_value=1,
+        max_value=60,
+        value=25,
+    )
+
+    if "timer_running" not in st.session_state:
+        st.session_state.timer_running = False
+
+    if "timer_end" not in st.session_state:
+        st.session_state.timer_end = None
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        start_timer = st.button(
+            "▶️ Start Timer",
+            key="start_timer",
+        )
+
+    with col2:
+        stop_timer = st.button(
+            "⏹️ Stop Timer",
+            key="stop_timer",
+        )
+
+    if start_timer:
+        st.session_state.timer_running = True
+        st.session_state.timer_end = (
+            time.time() + timer_minutes * 60
+        )
+
+    if stop_timer:
+        st.session_state.timer_running = False
+        st.session_state.timer_end = None
+        st.info("⏹️ Timer stopped.")
+
+    if (
+        st.session_state.timer_running
+        and st.session_state.timer_end
+    ):
+
+        remaining = int(
+            st.session_state.timer_end - time.time()
+        )
+
+        if remaining <= 0:
+
+            st.session_state.timer_running = False
+            st.session_state.timer_end = None
+
+            st.success("🎉 Time's up! Great work!")
+            st.balloons()
+
+        else:
+
+            minutes_left = remaining // 60
+            seconds_left = remaining % 60
+
+            st.markdown(
+                f"""
+                <div class="answer-box"
+                     style="text-align:center;">
+                    <h1>
+                        ⏱️ {minutes_left:02d}:{seconds_left:02d}
+                    </h1>
+                    <p>Stay focused 🚀</p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            time.sleep(1)
+            st.rerun()
+
+
+# ============================================================
+# FOOTER
+# ============================================================
+
+st.markdown(
+    """
+    <div class="footer">
+        <h2>📚 AI Study Assistant</h2>
+
+        <p>
+            Learn smarter • Practice better • Achieve more 🚀
+        </p>
+
+        <p>
+            Made with ❤️ using Python, Streamlit and Gemini AI
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
