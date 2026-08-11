@@ -930,7 +930,9 @@ Use very simple language.
 # ============================================================
 
 st.markdown(
-    '<div class="section-title" 
+    '<div class="section-title">✨ Smart Study Tips</div>',
+    unsafe_allow_html=True
+)
 
                 
 
