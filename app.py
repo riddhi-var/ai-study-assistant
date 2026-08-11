@@ -18,211 +18,701 @@ st.set_page_config(
 
 # ============================================================
 # CUSTOM CSS
+# ========================================= ============================================================
+# 🚀 ADVANCED AI DASHBOARD DESIGN
 # ============================================================
 
-css = """
+st.markdown("""
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
-}
+/* =========================================================
+   MAIN BACKGROUND
+   ========================================================= */
 
 .stApp {
     background:
-        radial-gradient(circle at 10% 10%, rgba(79,70,229,0.20), transparent 30%),
-        radial-gradient(circle at 90% 10%, rgba(14,165,233,0.15), transparent 30%),
+        radial-gradient(circle at 10% 20%, rgba(79,70,229,0.22), transparent 25%),
+        radial-gradient(circle at 90% 15%, rgba(6,182,212,0.16), transparent 25%),
+        radial-gradient(circle at 50% 90%, rgba(124,58,237,0.18), transparent 30%),
         linear-gradient(135deg, #020617 0%, #0f172a 45%, #111827 100%);
-    color: #f8fafc;
+    background-attachment: fixed;
 }
 
-/* Sidebar */
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
 
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #020617, #111827);
-    border-right: 1px solid rgba(148,163,184,0.20);
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.sidebar-title {
-    font-size: 25px;
-    font-weight: 800;
-    color: #ffffff;
-    padding: 10px 0 20px 0;
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
-.sidebar-card {
-    padding: 14px;
-    margin: 10px 0;
-    border-radius: 15px;
-    background: rgba(30,41,59,0.70);
-    border: 1px solid rgba(99,102,241,0.25);
-    transition: 0.3s;
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow:
+            0 0 10px rgba(99,102,241,0.25),
+            0 0 25px rgba(99,102,241,0.10);
+    }
+
+    50% {
+        box-shadow:
+            0 0 25px rgba(129,140,248,0.55),
+            0 0 60px rgba(99,102,241,0.25);
+    }
 }
-
-.sidebar-card:hover {
-    transform: translateX(5px);
-    border-color: #818cf8;
-}
-
-/* Hero */
-
-.hero {
-    padding: 50px 30px;
-    border-radius: 30px;
-    text-align: center;
-    background:
-        linear-gradient(135deg, rgba(30,41,59,0.95), rgba(49,46,129,0.75));
-    border: 1px solid rgba(129,140,248,0.30);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.30);
-    animation: fadeUp 0.8s ease;
-    margin-bottom: 30px;
-}
-
-.hero-icon {
-    font-size: 65px;
-    animation: floatIcon 3s ease-in-out infinite;
-}
-
-.hero h1 {
-    font-size: 48px;
-    font-weight: 800;
-    margin: 10px 0;
-    background: linear-gradient(90deg, #a5b4fc, #67e8f9, #c4b5fd);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-    font-size: 19px;
-    color: #cbd5e1;
-}
-
-/* Section */
-
-.section-title {
-    font-size: 30px;
-    font-weight: 800;
-    margin: 30px 0 18px 0;
-    color: #f8fafc;
-}
-
-/* Cards */
-
-.tool-card {
-    min-height: 190px;
-    padding: 25px;
-    border-radius: 22px;
-    background: rgba(15,23,42,0.80);
-    border: 1px solid rgba(129,140,248,0.22);
-    box-shadow: 0 12px 35px rgba(0,0,0,0.20);
-    transition: all 0.3s ease;
-    animation: fadeUp 0.7s ease;
-}
-
-.tool-card:hover {
-    transform: translateY(-8px);
-    border-color: #818cf8;
-    box-shadow: 0 20px 50px rgba(79,70,229,0.25);
-}
-
-.tool-icon {
-    font-size: 42px;
-}
-
-.tool-title {
-    font-size: 20px;
-    font-weight: 800;
-    margin-top: 10px;
-    color: #ffffff;
-}
-
-.tool-text {
-    color: #94a3b8;
-    margin-top: 8px;
-}
-
-/* Buttons */
-
-.stButton > button {
-    width: 100%;
-    border-radius: 14px;
-    border: 1px solid rgba(129,140,248,0.40);
-    background: linear-gradient(135deg, #312e81, #4f46e5);
-    color: white;
-    font-weight: 700;
-    padding: 12px;
-    transition: all 0.25s ease;
-}
-
-.stButton > button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(79,70,229,0.40);
-    border-color: #a5b4fc;
-}
-
-/* Text input */
-
-.stTextArea textarea,
-.stTextInput input,
-.stNumberInput input {
-    background: rgba(15,23,42,0.85) !important;
-    color: white !important;
-    border-radius: 14px !important;
-    border: 1px solid rgba(129,140,248,0.35) !important;
-}
-
-/* Answer */
-
-.answer-box {
-    padding: 22px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, rgba(30,41,59,0.95), rgba(49,46,129,0.55));
-    border: 1px solid rgba(129,140,248,0.35);
-    margin: 20px 0;
-    animation: fadeUp 0.6s ease;
-}
-
-/* Footer */
-
-.footer {
-    margin-top: 60px;
-    padding: 30px;
-    text-align: center;
-    border-radius: 22px;
-    background: rgba(15,23,42,0.75);
-    border: 1px solid rgba(129,140,248,0.20);
-    color: #94a3b8;
-}
-
-/* Animations */
 
 @keyframes fadeUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(35px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes floatIcon {
-    0%,100% {
-        transform: translateY(0);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
     }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes orbRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes borderMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
     50% {
-        transform: translateY(-12px);
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+
+    padding: 55px 30px;
+    margin: 20px 0 35px 0;
+
+    text-align: center;
+
+    border-radius: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(15,23,42,0.95),
+            rgba(49,46,129,0.75),
+            rgba(30,41,59,0.95)
+        );
+
+    background-size: 300% 300%;
+
+    border: 1px solid rgba(129,140,248,0.35);
+
+    animation:
+        fadeUp 0.8s ease,
+        gradientMove 10s ease infinite;
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,0.35);
+}
+
+/* glowing circles behind hero */
+
+.hero::before {
+    content: "";
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    border-radius: 50%;
+
+    background: rgba(99,102,241,0.12);
+
+    filter: blur(5px);
+
+    top: -100px;
+    left: -70px;
+
+    animation: float 5s ease-in-out infinite;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 200px;
+    height: 200px;
+
+    border-radius: 50%;
+
+    background: rgba(6,182,212,0.10);
+
+    bottom: -90px;
+    right: -60px;
+
+    animation: float 6s ease-in-out infinite reverse;
+}
+
+/* =========================================================
+   HERO ICON
+   ========================================================= */
+
+.hero-icon {
+    position: relative;
+    z-index: 2;
+
+    font-size: 70px;
+
+    display: inline-block;
+
+    animation: float 3s ease-in-out infinite;
+
+    filter:
+        drop-shadow(0 0 10px rgba(129,140,248,0.8));
+}
+
+/* =========================================================
+   HERO TITLE
+   ========================================================= */
+
+.hero h1 {
+    position: relative;
+    z-index: 2;
+
+    font-size: 50px;
+    font-weight: 900;
+
+    margin: 10px 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a5b4fc,
+            #67e8f9,
+            #c4b5fd,
+            #818cf8
+        );
+
+    background-size: 300% auto;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: gradientMove 6s ease infinite;
+}
+
+.hero p {
+    position: relative;
+    z-index: 2;
+
+    color: #cbd5e1;
+
+    font-size: 18px;
+}
+
+/* =========================================================
+   SECTION TITLE
+   ========================================================= */
+
+.section-title {
+    font-size: 30px;
+    font-weight: 800;
+
+    margin: 35px 0 20px 0;
+
+    color: #f8fafc;
+
+    animation: fadeUp 0.7s ease;
+}
+
+/* =========================================================
+   GLASSMORPHISM CARDS
+   ========================================================= */
+
+.tool-card {
+    position: relative;
+
+    min-height: 190px;
+
+    padding: 25px;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(30,41,59,0.80),
+            rgba(15,23,42,0.65)
+        );
+
+    backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(129,140,248,0.22);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.25);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+
+    animation: fadeUp 0.8s ease;
+
+    overflow: hidden;
+}
+
+/* animated glow inside card */
+
+.tool-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+
+    background: rgba(99,102,241,0.12);
+
+    filter: blur(20px);
+
+    top: -50px;
+    right: -40px;
+
+    transition: 0.4s;
+}
+
+.tool-card:hover::before {
+    width: 180px;
+    height: 180px;
+}
+
+/* card hover */
+
+.tool-card:hover {
+    transform:
+        translateY(-12px)
+        scale(1.025);
+
+    border-color:
+        rgba(129,140,248,0.75);
+
+    box-shadow:
+        0 20px 55px rgba(79,70,229,0.28);
+}
+
+/* =========================================================
+   CARD ICON
+   ========================================================= */
+
+.tool-icon {
+    position: relative;
+
+    font-size: 45px;
+
+    display: inline-block;
+
+    animation: float 3s ease-in-out infinite;
+}
+
+/* =========================================================
+   CARD TEXT
+   ========================================================= */
+
+.tool-title {
+    font-size: 20px;
+
+    font-weight: 800;
+
+    margin-top: 12px;
+
+    color: #ffffff;
+}
+
+.tool-text {
+    color: #94a3b8;
+
+    margin-top: 8px;
+
+    line-height: 1.6;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.stButton > button {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    border-radius: 15px;
+
+    border:
+        1px solid rgba(129,140,248,0.40);
+
+    background:
+        linear-gradient(
+            90deg,
+            #312e81,
+            #4f46e5,
+            #7c3aed,
+            #312e81
+        );
+
+    background-size: 300% auto;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-position 0.5s ease;
+
+    animation: gradientMove 6s ease infinite;
+}
+
+.stButton > button:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.02);
+
+    background-position:
+        100% center;
+
+    box-shadow:
+        0 10px 30px rgba(99,102,241,0.55);
+
+    border-color:
+        #a5b4fc;
+}
+
+.stButton > button:active {
+
+    transform:
+        translateY(0)
+        scale(0.98);
+}
+
+/* =========================================================
+   TEXT AREAS
+   ========================================================= */
+
+.stTextArea textarea {
+
+    background:
+        rgba(15,23,42,0.85) !important;
+
+    color:
+        #f8fafc !important;
+
+    border-radius:
+        16px !important;
+
+    border:
+        1px solid rgba(129,140,248,0.35) !important;
+
+    transition:
+        0.3s ease !important;
+}
+
+.stTextArea textarea:focus {
+
+    border-color:
+        #818cf8 !important;
+
+    box-shadow:
+        0 0 20px rgba(99,102,241,0.25) !important;
+}
+
+/* =========================================================
+   TEXT INPUT
+   ========================================================= */
+
+.stTextInput input {
+
+    background:
+        rgba(15,23,42,0.85) !important;
+
+    color:
+        #ffffff !important;
+
+    border-radius:
+        15px !important;
+
+    border:
+        1px solid rgba(129,140,248,0.35) !important;
+}
+
+/* =========================================================
+   SELECT BOX
+   ========================================================= */
+
+.stSelectbox > div > div {
+
+    background:
+        rgba(15,23,42,0.90) !important;
+
+    border-radius:
+        14px !important;
+
+    border:
+        1px solid rgba(129,140,248,0.35) !important;
+}
+
+/* =========================================================
+   ANSWER BOX
+   ========================================================= */
+
+.answer-box {
+
+    padding: 25px;
+
+    margin: 25px 0;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(30,41,59,0.90),
+            rgba(49,46,129,0.65)
+        );
+
+    backdrop-filter:
+        blur(18px);
+
+    border:
+        1px solid rgba(129,140,248,0.40);
+
+    animation:
+        fadeUp 0.7s ease,
+        pulseGlow 3s ease-in-out infinite;
+}
+
+/* =========================================================
+   AI THINKING EFFECT
+   ========================================================= */
+
+.ai-thinking {
+
+    padding: 20px;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    background:
+        rgba(30,41,59,0.75);
+
+    border:
+        1px solid rgba(129,140,248,0.30);
+
+    animation:
+        pulseGlow 1.5s infinite;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+section[data-testid="stSidebar"] {
+
+    background:
+        linear-gradient(
+            180deg,
+            #020617,
+            #0f172a,
+            #111827
+        );
+
+    border-right:
+        1px solid rgba(129,140,248,0.20);
+}
+
+.sidebar-title {
+
+    font-size: 25px;
+
+    font-weight: 900;
+
+    color: white;
+
+    padding:
+        10px 0 20px 0;
+}
+
+.sidebar-card {
+
+    padding: 15px;
+
+    margin: 10px 0;
+
+    border-radius: 16px;
+
+    background:
+        rgba(30,41,59,0.65);
+
+    border:
+        1px solid rgba(129,140,248,0.20);
+
+    transition:
+        0.3s ease;
+}
+
+.sidebar-card:hover {
+
+    transform:
+        translateX(7px);
+
+    border-color:
+        #818cf8;
+
+    box-shadow:
+        0 5px 20px rgba(79,70,229,0.20);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+
+    margin-top: 60px;
+
+    padding: 35px;
+
+    text-align: center;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(15,23,42,0.85),
+            rgba(49,46,129,0.35)
+        );
+
+    border:
+        1px solid rgba(129,140,248,0.20);
+
+    animation:
+        fadeUp 1s ease;
+}
+
+.footer h2 {
+
+    color:
+        #e0e7ff;
+
+    font-weight:
+        900;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+
+    background:
+        linear-gradient(
+            #4f46e5,
+            #7c3aed
+        );
+
+    border-radius:
+        10px;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .hero {
+        padding: 35px 15px;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .hero-icon {
+        font-size: 50px;
+    }
+
+    .section-title {
+        font-size: 24px;
     }
 }
 
 </style>
-"""
-
-st.markdown(css, unsafe_allow_html=True)
-
-# ============================================================
+""", unsafe_allow_html=True) ============================================================
 # GEMINI CONNECTION
 # ============================================================
 
