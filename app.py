@@ -2,7 +2,6 @@ import streamlit as st
 from google import genai
 from pypdf import PdfReader
 import time
-import random
 
 # ============================================================
 # PAGE CONFIG
@@ -24,68 +23,161 @@ st.markdown("""
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
-* {
+html, body, [class*="css"] {
     font-family: 'Poppins', sans-serif;
 }
 
 .stApp {
-    background:
-        radial-gradient(circle at 10% 10%, rgba(59,130,246,0.18), transparent 30%),
-        radial-gradient(circle at 90% 10%, rgba(139,92,246,0.18), transparent 30%),
-        linear-gradient(135deg, #07152f 0%, #0b1f42 45%, #111b3d 100%);
-    color: white;
+    background: linear-gradient(135deg, #eef4ff 0%, #f8fbff 50%, #eaf2ff 100%);
 }
 
+/* Main container */
 .block-container {
     padding-top: 2rem;
     padding-bottom: 3rem;
-    max-width: 1250px;
+    max-width: 1200px;
 }
 
+/* Header */
+.hero {
+    background: linear-gradient(135deg, #071a52, #123b8f, #1769aa);
+    padding: 42px 30px;
+    border-radius: 28px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 15px 40px rgba(7, 26, 82, 0.25);
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease;
+}
+
+.hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin: 5px;
+}
+
+.hero-icon {
+    font-size: 60px;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Cards */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    min-height: 175px;
+    border: 1px solid #dce7ff;
+    box-shadow: 0 8px 25px rgba(25, 55, 110, 0.08);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 15px 35px rgba(25, 55, 110, 0.18);
+    border-color: #3978d4;
+}
+
+.card-icon {
+    font-size: 40px;
+}
+
+.card-title {
+    color: #071a52;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.card-text {
+    color: #52627a;
+    font-size: 14px;
+}
+
+/* Section titles */
+.section-title {
+    color: #071a52;
+    font-size: 27px;
+    font-weight: 800;
+    margin-top: 25px;
+    margin-bottom: 18px;
+}
+
+/* Answer box */
+.answer-box {
+    background: linear-gradient(135deg, #ffffff, #eef5ff);
+    border-left: 6px solid #1769aa;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(25, 55, 110, 0.1);
+    margin-top: 20px;
+}
+
+/* Sidebar */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #06132d, #0c2045);
-    border-right: 1px solid rgba(255,255,255,0.12);
+    background: linear-gradient(180deg, #06143d, #09245c, #0d367d);
 }
 
 section[data-testid="stSidebar"] * {
     color: white !important;
 }
 
-.hero {
-    padding: 45px 30px;
-    border-radius: 28px;
-    text-align: center;
-    margin-bottom: 28px;
-    background:
-        linear-gradient(135deg,
-        rgba(30,64,175,0.90),
-        rgba(76,29,149,0.88));
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-    animation: fadeIn 1s ease;
-}
-
-.hero-icon {
-    font-size: 65px;
-    animation: float 3s ease-in-out infinite;
-}
-
-.hero h1 {
-    font-size: 46px;
+.sidebar-title {
+    font-size: 25px;
     font-weight: 800;
-    margin: 8px 0;
+    text-align: center;
+    padding: 15px;
 }
 
-.hero p {
-    font-size: 18px;
-    color: #dbeafe;
+/* Buttons */
+.stButton > button {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid #b9cdf0;
+    background: white;
+    color: #071a52;
+    font-weight: 700;
+    padding: 11px;
+    transition: all 0.25s ease;
 }
 
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+.stButton > button:hover {
+    background: #071a52;
+    color: white;
+    border-color: #071a52;
+    transform: translateY(-2px);
 }
 
+/* Primary button */
+button[kind="primary"] {
+    background: linear-gradient(135deg, #071a52, #1769aa) !important;
+    color: white !important;
+}
+
+/* Inputs */
+.stTextInput input,
+.stTextArea textarea,
+.stNumberInput input {
+    border-radius: 14px !important;
+    border: 1px solid #c5d5ef !important;
+}
+
+/* Footer */
+.footer {
+    margin-top: 45px;
+    padding: 30px;
+    text-align: center;
+    background: #071a52;
+    color: white;
+    border-radius: 22px;
+}
+
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -97,120 +189,20 @@ section[data-testid="stSidebar"] * {
     }
 }
 
-.section-title {
-    font-size: 28px;
-    font-weight: 700;
-    margin: 28px 0 18px;
-    color: #ffffff;
-}
-
-.feature-card {
-    min-height: 170px;
-    padding: 25px;
-    border-radius: 22px;
-    background: linear-gradient(
-        145deg,
-        rgba(30,64,175,0.55),
-        rgba(15,23,42,0.85)
-    );
-    border: 1px solid rgba(147,197,253,0.20);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-    transition: all 0.3s ease;
-    margin-bottom: 20px;
-}
-
-.feature-card:hover {
-    transform: translateY(-7px);
-    border-color: rgba(96,165,250,0.65);
-    box-shadow: 0 20px 45px rgba(37,99,235,0.25);
-}
-
-.feature-icon {
-    font-size: 42px;
-}
-
-.feature-title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 10px;
-}
-
-.feature-text {
-    color: #cbd5e1;
-    font-size: 14px;
-}
-
-.ask-box {
-    padding: 30px;
-    border-radius: 25px;
-    background: linear-gradient(
-        145deg,
-        rgba(15,23,42,0.92),
-        rgba(30,41,59,0.90)
-    );
-    border: 1px solid rgba(96,165,250,0.25);
-    box-shadow: 0 18px 45px rgba(0,0,0,0.30);
-}
-
-.answer-box {
-    padding: 20px;
-    border-radius: 20px;
-    background: rgba(30,64,175,0.18);
-    border-left: 5px solid #60a5fa;
-    margin-top: 25px;
-}
-
-.stat-card {
-    text-align: center;
-    padding: 22px;
-    border-radius: 20px;
-    background: rgba(15,23,42,0.75);
-    border: 1px solid rgba(255,255,255,0.10);
-}
-
-.stat-number {
-    font-size: 30px;
-    font-weight: 800;
-    color: #93c5fd;
-}
-
-.stat-label {
-    color: #cbd5e1;
-    font-size: 13px;
-}
-
-.footer {
-    text-align: center;
-    margin-top: 50px;
-    padding: 25px;
-    color: #94a3b8;
-}
-
-div.stButton > button {
-    width: 100%;
-    border-radius: 14px;
-    border: 1px solid rgba(147,197,253,0.25);
-    background: linear-gradient(135deg,#1d4ed8,#4f46e5);
-    color: white;
-    font-weight: 600;
-    transition: all 0.25s ease;
-}
-
-div.stButton > button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(59,130,246,0.35);
-    border-color: #93c5fd;
-}
-
-textarea, input {
-    border-radius: 12px !important;
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 # ============================================================
-# GEMINI CONNECTION
+# GEMINI CLIENT
 # ============================================================
 
 if "GEMINI_API_KEY" not in st.secrets:
@@ -222,28 +214,26 @@ if "GEMINI_API_KEY" not in st.secrets:
     st.stop()
 
 try:
-    client = genai.Client(
-        api_key=st.secrets["GEMINI_API_KEY"]
-    )
+    client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 except Exception as e:
     st.error("❌ Could not connect to Gemini.")
     st.code(str(e))
     st.stop()
 
-MODEL = "gemini-3.6-flash"
+MODEL = "gemini-2.5-flash"
 
 # ============================================================
-# SESSION STATE
+# HEADER
 # ============================================================
 
-if "question_count" not in st.session_state:
-    st.session_state.question_count = 0
-
-if "selected_tool" not in st.session_state:
-    st.session_state.selected_tool = "💬 Ask AI"
-
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+st.markdown("""
+<div class="hero">
+    <div class="hero-icon">📚</div>
+    <h1>AI Study Assistant</h1>
+    <p>Your Personal AI Tutor 🤖</p>
+    <p>Learn • Practice • Revise • Succeed 🚀</p>
+</div>
+""", unsafe_allow_html=True)
 
 # ============================================================
 # SIDEBAR
@@ -252,32 +242,26 @@ if "messages" not in st.session_state:
 with st.sidebar:
 
     st.markdown(
-        """
-        <div style="text-align:center;">
-            <div style="font-size:55px;">🎓</div>
-            <h2>Study Center</h2>
-            <p style="color:#93c5fd;">Your learning dashboard</p>
-        </div>
-        """,
+        '<div class="sidebar-title">🎓 Study Center</div>',
         unsafe_allow_html=True
     )
 
     st.markdown("### 🧠 Study Tools")
 
-    tools = [
-        "💬 Ask AI",
-        "📄 PDF Study",
-        "📝 Summarize Notes",
-        "🎯 Generate Quiz",
-        "🧠 Flashcards",
-        "📅 Study Planner",
-        "⏱️ Pomodoro Timer",
-        "📊 Dashboard"
-    ]
-
-    for tool in tools:
-        if st.button(tool, key="tool_" + tool):
-            st.session_state.selected_tool = tool
+    tool = st.radio(
+        "Choose a tool:",
+        [
+            "💬 Ask AI",
+            "📖 Explain Topic",
+            "📝 Summarize Notes",
+            "🎯 Generate Quiz",
+            "📄 Study PDF",
+            "📅 Study Planner",
+            "🧠 Flashcards",
+            "🧮 Calculator",
+            "⏱️ Study Timer"
+        ]
+    )
 
     st.markdown("---")
 
@@ -286,122 +270,53 @@ with st.sidebar:
     st.markdown("""
     📚 Simple explanations
 
-    🤖 Gemini AI powered
+    🤖 AI-powered learning
 
-    📄 PDF learning
+    💡 Beginner-friendly answers
 
-    🎯 Quiz practice
+    📝 Revision notes
 
-    🧠 Flashcards
+    🎯 Exam preparation
 
-    📅 Smart planning
-
-    ⏱️ Focus timer
+    🧠 Practice tools
     """)
 
     st.markdown("---")
-
-    st.caption("Made with ❤️ using Python + Streamlit + Gemini")
-
-# ============================================================
-# HERO
-# ============================================================
-
-st.markdown(
-    """
-    <div class="hero">
-        <div class="hero-icon">📚</div>
-        <h1>AI Study Assistant</h1>
-        <p>Your Personal AI Tutor 🤖</p>
-        <p>Learn • Practice • Revise • Succeed ✨</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-# ============================================================
-# QUICK STATS
-# ============================================================
-
-s1, s2, s3, s4 = st.columns(4)
-
-with s1:
-    st.markdown(
-        """
-        <div class="stat-card">
-            <div class="stat-number">🤖</div>
-            <div class="stat-label">AI Tutor</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-with s2:
-    st.markdown(
-        """
-        <div class="stat-card">
-            <div class="stat-number">📄</div>
-            <div class="stat-label">PDF Study</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-with s3:
-    st.markdown(
-        """
-        <div class="stat-card">
-            <div class="stat-number">🎯</div>
-            <div class="stat-label">Quiz Practice</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-with s4:
-    st.markdown(
-        """
-        <div class="stat-card">
-            <div class="stat-number">🧠</div>
-            <div class="stat-label">Smart Learning</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.caption("🐍 Python • 🎈 Streamlit • 🤖 Gemini")
 
 # ============================================================
 # FEATURE CARDS
 # ============================================================
 
 st.markdown(
-    '<div class="section-title">✨ Explore Your Study Tools</div>',
+    '<div class="section-title">✨ What can I help you with?</div>',
     unsafe_allow_html=True
 )
 
-c1, c2, c3, c4 = st.columns(4)
+col1, col2, col3, col4 = st.columns(4)
 
 cards = [
-    ("💬", "Ask AI", "Ask any study question."),
-    ("📄", "PDF Study", "Learn directly from PDFs."),
-    ("📝", "Smart Notes", "Turn long notes into revision notes."),
-    ("🎯", "Quiz", "Test your knowledge.")
+    ("💬", "Ask AI", "Ask questions about your subjects."),
+    ("📖", "Explain", "Understand difficult concepts easily."),
+    ("📝", "Summarize", "Turn long topics into simple notes."),
+    ("🎯", "Practice", "Generate questions for revision.")
 ]
 
-for col, card in zip([c1, c2, c3, c4], cards):
+for col, card in zip([col1, col2, col3, col4], cards):
     with col:
         st.markdown(
             f"""
-            <div class="feature-card">
-                <div class="feature-icon">{card[0]}</div>
-                <div class="feature-title">{card[1]}</div>
-                <div class="feature-text">{card[2]}</div>
+            <div class="card">
+                <div class="card-icon">{card[0]}</div>
+                <div class="card-title">{card[1]}</div>
+                <div class="card-text">{card[2]}</div>
             </div>
             """,
             unsafe_allow_html=True
         )
 
 # ============================================================
-# STUDY IMAGE
+# IMAGE
 # ============================================================
 
 st.image(
@@ -410,32 +325,14 @@ st.image(
 )
 
 # ============================================================
-# AI FUNCTION
+# GEMINI FUNCTION
 # ============================================================
 
-def ask_ai(prompt, instruction=""):
-    full_prompt = f"""
-You are a friendly AI Study Assistant.
-
-Explain things to students using simple, clear language.
-
-{instruction}
-
-Student request:
-{prompt}
-
-Use:
-📖 Simple Explanation
-💡 Example
-⭐ Important Points
-📝 Quick Revision
-
-Avoid unnecessarily complicated language.
-"""
+def ask_gemini(prompt):
 
     response = client.models.generate_content(
         model=MODEL,
-        contents=full_prompt
+        contents=prompt
     )
 
     return response.text
@@ -444,135 +341,288 @@ Avoid unnecessarily complicated language.
 # ASK AI
 # ============================================================
 
-if st.session_state.selected_tool == "💬 Ask AI":
+if tool == "💬 Ask AI":
 
     st.markdown(
         '<div class="section-title">🤖 Ask Your AI Tutor</div>',
         unsafe_allow_html=True
     )
 
-    st.markdown('<div class="ask-box">', unsafe_allow_html=True)
-
     question = st.text_area(
-        "💭 What would you like to learn?",
+        "💭 Your Question",
         placeholder="Example: Explain Python variables in very simple language...",
-        height=150,
-        key="main_question"
+        height=150
     )
 
-    ask = st.button(
-        "🤖 Ask AI",
-        key="main_ask",
-        use_container_width=True
-    )
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    if ask:
+    if st.button("🤖 Ask AI", type="primary"):
 
         if not question.strip():
             st.warning("⚠️ Please enter your question first.")
 
         else:
 
+            prompt = f"""
+You are a friendly AI Study Assistant.
+
+Student question:
+{question}
+
+Answer in very simple language.
+
+Use this structure:
+
+## 📖 Simple Explanation
+
+## 💡 Example
+
+## ⭐ Important Points
+
+## 🎯 Quick Revision
+
+Use emojis where useful.
+Avoid unnecessarily complicated words.
+"""
+
             with st.spinner("🤖 Your AI tutor is thinking..."):
 
                 try:
-                    answer = ask_ai(question)
-                    st.session_state.question_count += 1
+                    answer = ask_gemini(prompt)
 
                     st.markdown(
-                        """
-                        <div class="answer-box">
-                            <h2>📖 AI Tutor Answer</h2>
-                        </div>
-                        """,
+                        '<div class="answer-box"><h2>📖 AI Tutor Answer</h2></div>',
                         unsafe_allow_html=True
                     )
 
                     st.markdown(answer)
-                    st.success("✅ Answer ready! Keep learning 🚀")
+                    st.success("✅ Done! Keep learning 🚀")
 
                 except Exception as e:
                     st.error("❌ Gemini could not answer right now.")
                     st.code(str(e))
 
 # ============================================================
+# EXPLAIN TOPIC
+# ============================================================
+
+elif tool == "📖 Explain Topic":
+
+    st.markdown(
+        '<div class="section-title">📖 Explain Any Topic</div>',
+        unsafe_allow_html=True
+    )
+
+    topic = st.text_input(
+        "📚 Enter topic",
+        placeholder="Example: Recursion in Python"
+    )
+
+    level = st.selectbox(
+        "🎓 Explanation level",
+        ["Beginner", "School Student", "College Student", "Exam Preparation"]
+    )
+
+    if st.button("📖 Explain Topic", type="primary"):
+
+        if not topic.strip():
+            st.warning("⚠️ Enter a topic first.")
+
+        else:
+
+            prompt = f"""
+Explain the topic "{topic}" to a {level} student.
+
+Use:
+
+## 📖 Simple Explanation
+## 💡 Easy Example
+## ⭐ Important Points
+## 📝 Exam Tip
+## 🎯 Quick Revision
+
+Use simple language.
+"""
+
+            with st.spinner("📖 Preparing explanation..."):
+
+                try:
+                    st.markdown(ask_gemini(prompt))
+                except Exception as e:
+                    st.error("❌ Could not explain the topic.")
+                    st.code(str(e))
+
+# ============================================================
+# SUMMARIZE NOTES
+# ============================================================
+
+elif tool == "📝 Summarize Notes":
+
+    st.markdown(
+        '<div class="section-title">📝 Smart Notes Summarizer</div>',
+        unsafe_allow_html=True
+    )
+
+    notes = st.text_area(
+        "📄 Paste your notes",
+        placeholder="Paste your study material here...",
+        height=250
+    )
+
+    if st.button("✨ Summarize Notes", type="primary"):
+
+        if not notes.strip():
+            st.warning("⚠️ Please paste some notes.")
+
+        else:
+
+            prompt = f"""
+Summarize these study notes:
+
+{notes}
+
+Give:
+
+## 📌 Key Concepts
+## ⭐ Important Points
+## 📝 Short Revision Notes
+## ❓ Possible Exam Questions
+
+Use very simple language.
+"""
+
+            with st.spinner("📝 Creating your summary..."):
+
+                try:
+                    st.markdown(ask_gemini(prompt))
+                except Exception as e:
+                    st.error("❌ Could not summarize notes.")
+                    st.code(str(e))
+
+# ============================================================
+# QUIZ
+# ============================================================
+
+elif tool == "🎯 Generate Quiz":
+
+    st.markdown(
+        '<div class="section-title">🎯 Quiz Generator</div>',
+        unsafe_allow_html=True
+    )
+
+    quiz_topic = st.text_input(
+        "📚 Quiz topic",
+        placeholder="Example: Python Basics"
+    )
+
+    difficulty = st.selectbox(
+        "🎚️ Difficulty",
+        ["Easy", "Medium", "Hard"]
+    )
+
+    number = st.slider(
+        "🔢 Number of questions",
+        5,
+        15,
+        10
+    )
+
+    if st.button("🚀 Generate Quiz", type="primary"):
+
+        if not quiz_topic.strip():
+            st.warning("⚠️ Enter a topic first.")
+
+        else:
+
+            prompt = f"""
+Create a {number}-question multiple-choice quiz.
+
+Topic: {quiz_topic}
+Difficulty: {difficulty}
+
+For every question provide:
+
+Question
+A.
+B.
+C.
+D.
+
+Then give the correct answer and a short explanation.
+
+Keep formatting clear.
+"""
+
+            with st.spinner("🎯 Creating your quiz..."):
+
+                try:
+                    st.markdown(ask_gemini(prompt))
+                except Exception as e:
+                    st.error("❌ Could not generate quiz.")
+                    st.code(str(e))
+
+# ============================================================
 # PDF STUDY
 # ============================================================
 
-elif st.session_state.selected_tool == "📄 PDF Study":
+elif tool == "📄 Study PDF":
 
     st.markdown(
         '<div class="section-title">📄 Study From Your PDF</div>',
         unsafe_allow_html=True
     )
 
-    uploaded_file = st.file_uploader(
+    uploaded_pdf = st.file_uploader(
         "📚 Upload your study PDF",
         type=["pdf"]
     )
 
-    if uploaded_file:
+    if uploaded_pdf:
 
         try:
 
-            reader = PdfReader(uploaded_file)
-
-            pdf_text = ""
+            reader = PdfReader(uploaded_pdf)
+            text = ""
 
             for page in reader.pages:
                 page_text = page.extract_text()
 
                 if page_text:
-                    pdf_text += page_text + "\n"
+                    text += page_text + "\n"
 
             st.success(
-                f"✅ PDF loaded successfully — {len(reader.pages)} page(s)"
+                f"✅ PDF loaded! {len(reader.pages)} page(s) found."
             )
 
             pdf_question = st.text_area(
-                "💭 Ask something about your PDF",
-                placeholder="Example: Explain the main topic of this PDF."
+                "💭 Ask a question about your PDF",
+                placeholder="Example: What are the main points?"
             )
 
-            if st.button("🤖 Ask PDF", use_container_width=True):
+            if st.button("🤖 Ask PDF", type="primary"):
 
                 if not pdf_question.strip():
-                    st.warning("⚠️ Please enter a question.")
+                    st.warning("⚠️ Ask a question first.")
 
                 else:
+
+                    prompt = f"""
+You are a study assistant.
+
+Use the following PDF content to answer the student's question.
+
+PDF content:
+{text[:30000]}
+
+Student question:
+{pdf_question}
+
+Answer in simple language.
+If the information is not available in the PDF, say so.
+"""
 
                     with st.spinner("📚 Reading your PDF..."):
 
                         try:
-
-                            prompt = f"""
-You are a PDF study assistant.
-
-Use the following PDF content to answer the question.
-
-PDF CONTENT:
-{pdf_text[:50000]}
-
-QUESTION:
-{pdf_question}
-
-Answer in simple student-friendly language.
-"""
-
-                            response = client.models.generate_content(
-                                model=MODEL,
-                                contents=prompt
-                            )
-
-                            st.markdown(
-                                '<div class="answer-box"><h2>📖 PDF Answer</h2></div>',
-                                unsafe_allow_html=True
-                            )
-
-                            st.markdown(response.text)
-
+                            st.markdown(ask_gemini(prompt))
                         except Exception as e:
                             st.error("❌ Could not process the PDF.")
                             st.code(str(e))
@@ -582,202 +632,13 @@ Answer in simple student-friendly language.
             st.code(str(e))
 
 # ============================================================
-# SUMMARIZE NOTES
-# ============================================================
-
-elif st.session_state.selected_tool == "📝 Summarize Notes":
-
-    st.markdown(
-        '<div class="section-title">📝 Smart Notes Summarizer</div>',
-        unsafe_allow_html=True
-    )
-
-    notes = st.text_area(
-        "📚 Paste your study notes",
-        placeholder="Paste your chapter or class notes here...",
-        height=250
-    )
-
-    if st.button("✨ Summarize Notes", use_container_width=True):
-
-        if not notes.strip():
-            st.warning("⚠️ Please paste some notes first.")
-
-        else:
-
-            with st.spinner("📝 Creating your revision notes..."):
-
-                try:
-
-                    prompt = f"""
-Summarize the following student notes.
-
-NOTES:
-{notes}
-
-Create:
-
-📌 Key Concepts
-⭐ Important Points
-📝 Short Revision Notes
-❓ Possible Exam Questions
-
-Use very simple language.
-"""
-
-                    response = client.models.generate_content(
-                        model=MODEL,
-                        contents=prompt
-                    )
-
-                    st.markdown(
-                        '<div class="answer-box"><h2>📝 Smart Summary</h2></div>',
-                        unsafe_allow_html=True
-                    )
-
-                    st.markdown(response.text)
-
-                except Exception as e:
-                    st.error("❌ Could not summarize notes.")
-                    st.code(str(e))
-
-# ============================================================
-# QUIZ
-# ============================================================
-
-elif st.session_state.selected_tool == "🎯 Generate Quiz":
-
-    st.markdown(
-        '<div class="section-title">🎯 AI Quiz Generator</div>',
-        unsafe_allow_html=True
-    )
-
-    quiz_topic = st.text_input(
-        "📚 Quiz Topic",
-        placeholder="Example: Python Basics"
-    )
-
-    difficulty = st.selectbox(
-        "🎚️ Difficulty",
-        ["Beginner", "Intermediate", "Advanced"]
-    )
-
-    number = st.slider(
-        "🔢 Number of questions",
-        3,
-        15,
-        5
-    )
-
-    if st.button("🚀 Generate Quiz", use_container_width=True):
-
-        if not quiz_topic.strip():
-            st.warning("⚠️ Please enter a quiz topic.")
-
-        else:
-
-            with st.spinner("🎯 Creating your quiz..."):
-
-                try:
-
-                    prompt = f"""
-Create a multiple-choice quiz.
-
-Topic: {quiz_topic}
-Difficulty: {difficulty}
-Number of questions: {number}
-
-For each question give:
-
-Question
-A.
-B.
-C.
-D.
-
-After all questions provide:
-✅ Correct Answers
-💡 Short Explanations
-
-Make it suitable for students.
-"""
-
-                    response = client.models.generate_content(
-                        model=MODEL,
-                        contents=prompt
-                    )
-
-                    st.markdown(
-                        '<div class="answer-box"><h2>🎯 Your Quiz</h2></div>',
-                        unsafe_allow_html=True
-                    )
-
-                    st.markdown(response.text)
-
-                except Exception as e:
-                    st.error("❌ Could not generate quiz.")
-                    st.code(str(e))
-
-# ============================================================
-# FLASHCARDS
-# ============================================================
-
-elif st.session_state.selected_tool == "🧠 Flashcards":
-
-    st.markdown(
-        '<div class="section-title">🧠 AI Flashcards</div>',
-        unsafe_allow_html=True
-    )
-
-    flash_topic = st.text_input(
-        "📚 Topic",
-        placeholder="Example: Data Structures"
-    )
-
-    if st.button("🧠 Create Flashcards", use_container_width=True):
-
-        if not flash_topic.strip():
-            st.warning("⚠️ Enter a topic first.")
-
-        else:
-
-            with st.spinner("🧠 Creating flashcards..."):
-
-                try:
-
-                    prompt = f"""
-Create 10 study flashcards about:
-
-{flash_topic}
-
-Format:
-
-### 🃏 Card 1
-❓ Question:
-💡 Answer:
-
-Keep each answer short and easy to remember.
-"""
-
-                    response = client.models.generate_content(
-                        model=MODEL,
-                        contents=prompt
-                    )
-
-                    st.markdown(response.text)
-
-                except Exception as e:
-                    st.error("❌ Could not create flashcards.")
-                    st.code(str(e))
-
-# ============================================================
 # STUDY PLANNER
 # ============================================================
 
-elif st.session_state.selected_tool == "📅 Study Planner":
+elif tool == "📅 Study Planner":
 
     st.markdown(
-        '<div class="section-title">📅 Smart Study Planner</div>',
+        '<div class="section-title">📅 Personal Study Planner</div>',
         unsafe_allow_html=True
     )
 
@@ -788,78 +649,228 @@ elif st.session_state.selected_tool == "📅 Study Planner":
 
     days = st.number_input(
         "📆 Number of days",
-        1,
-        30,
-        7
+        min_value=1,
+        max_value=30,
+        value=7
     )
 
     hours = st.number_input(
         "⏰ Study hours per day",
-        1,
-        12,
-        2
+        min_value=1,
+        max_value=12,
+        value=2
     )
 
-    if st.button("🚀 Create Study Plan", use_container_width=True):
+    if st.button("🚀 Create My Plan", type="primary"):
 
         if not subject.strip():
             st.warning("⚠️ Enter a subject first.")
 
         else:
 
-            with st.spinner("📅 Creating your personalized plan..."):
-
-                try:
-
-                    prompt = f"""
+            prompt = f"""
 Create a realistic study plan.
 
 Subject: {subject}
 Days: {days}
 Hours per day: {hours}
 
-Give a day-by-day schedule.
+Create a day-by-day plan.
 
 Include:
 📚 Topics
 ⏰ Study time
 📝 Practice
 🔄 Revision
-🎯 Daily goal
+🎯 Goals
 
-Use simple language.
+Keep it beginner-friendly.
 """
 
-                    response = client.models.generate_content(
-                        model=MODEL,
-                        contents=prompt
-                    )
+            with st.spinner("📅 Creating your study plan..."):
 
-                    st.markdown(response.text)
-
+                try:
+                    st.markdown(ask_gemini(prompt))
                 except Exception as e:
                     st.error("❌ Could not create study plan.")
                     st.code(str(e))
 
 # ============================================================
-# POMODORO TIMER
+# FLASHCARDS
 # ============================================================
 
-elif st.session_state.selected_tool == "⏱️ Pomodoro Timer":
+elif tool == "🧠 Flashcards":
 
     st.markdown(
-        '<div class="section-title">⏱️ Focus Timer</div>',
+        '<div class="section-title">🧠 AI Flashcards</div>',
         unsafe_allow_html=True
     )
 
+    flash_topic = st.text_input(
+        "📚 Enter topic",
+        placeholder="Example: C++ Basics"
+    )
+
+    count = st.slider(
+        "🃏 Number of flashcards",
+        5,
+        20,
+        10
+    )
+
+    if st.button("🧠 Create Flashcards", type="primary"):
+
+        if not flash_topic.strip():
+            st.warning("⚠️ Enter a topic first.")
+
+        else:
+
+            prompt = f"""
+Create {count} useful study flashcards about:
+
+{flash_topic}
+
+Format each one as:
+
+### 🃏 Flashcard 1
+**Question:** ...
+**Answer:** ...
+
+Use simple language.
+"""
+
+            with st.spinner("🧠 Creating flashcards..."):
+
+                try:
+                    st.markdown(ask_gemini(prompt))
+                except Exception as e:
+                    st.error("❌ Could not create flashcards.")
+                    st.code(str(e))
+
+# ============================================================
+# CALCULATOR
+# ============================================================
+
+elif tool == "🧮 Calculator":
+
     st.markdown(
-        """
-        <div class="feature-card" style="text-align:center;">
-            <div style="font-size:65px;">🍅</div>
-            <h2>Pomodoro Study Session</h2>
-            <p>Focus for 25 minutes, then take a short break.</p>
+        '<div class="section-title">🧮 Study Calculator</div>',
+        unsafe_allow_html=True
+    )
+
+    expression = st.text_input(
+        "🔢 Enter calculation",
+        placeholder="Example: 25 * 4 + 10"
+    )
+
+    st.info("⚠️ Use basic mathematical expressions only.")
+
+    if st.button("🧮 Calculate", type="primary"):
+
+        try:
+
+            allowed = "0123456789+-*/(). %"
+
+            if not all(char in allowed for char in expression):
+                raise ValueError("Only basic mathematical symbols are allowed.")
+
+            result = eval(expression, {"__builtins__": {}}, {})
+
+            st.success(f"✅ Result: {result}")
+
+        except Exception:
+            st.error("❌ Please enter a valid calculation.")
+
+# ============================================================
+# TIMER
+# ============================================================
+
+elif tool == "⏱️ Study Timer":
+
+    st.markdown(
+        '<div class="section-title">⏱️ Focus Study Timer</div>',
+        unsafe_allow_html=True
+    )
+
+    minutes = st.number_input(
+        "⏰ Study duration in minutes",
+        min_value=1,
+        max_value=120,
+        value=25
+    )
+
+    if st.button("🚀 Start Timer", type="primary"):
+
+        placeholder = st.empty()
+
+        total_seconds = int(minutes * 60)
+
+        for remaining in range(total_seconds, -1, -1):
+
+            mins = remaining // 60
+            secs = remaining % 60
+
+            placeholder.markdown(
+                f"""
+                <div style="
+                    text-align:center;
+                    padding:35px;
+                    background:white;
+                    border-radius:25px;
+                    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+                ">
+                    <div style="font-size:65px;">⏱️</div>
+                    <h1 style="color:#071a52;">
+                        {mins:02d}:{secs:02d}
+                    </h1>
+                    <p>📚 Stay focused and keep studying!</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+            time.sleep(1)
+
+        st.success("🎉 Time's up! Great work!")
+
+# ============================================================
+# STUDY TIPS
+# ============================================================
+
+st.markdown(
+    '<div class="section-title">🌟 Smart Study Tips</div>',
+    unsafe_allow_html=True
+)
+
+tip1, tip2, tip3 = st.columns(3)
+
+with tip1:
+    st.markdown("""
+    <div class="card">
+        <div class="card-icon">⏰</div>
+        <div class="card-title">Study Regularly</div>
+        <div class="card-text">
+        Small daily sessions are better than last-minute studying.
         </div>
- 
-    
-    
-        
+    </div>
+    """, unsafe_allow_html=True)
+
+with tip2:
+    st.markdown("""
+    <div class="card">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">Practice More</div>
+        <div class="card-text">
+        Practice questions regularly to improve your confidence.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with tip3:
+    st.markdown("""
+    <div class="card">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">Revise</div>
+        <div class="card-text">
+        Revise important concepts regularly so you remember them longer.
+     
