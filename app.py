@@ -800,20 +800,24 @@ with st.sidebar:
     )
 
 # ============================================================
-# HERO
+# HERO SECTION
 # ============================================================
 
-st.markdown(
-    """
-    <div class="hero">
-        <div class="hero-icon">📚</div>
-        <h1>AI Study Assistant</h1>
-        <p>Your personal AI tutor 🤖</p>
-        <p>Learn • Practice • Revise • Succeed ✨</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="hero">
+
+    <div class="hero-icon">📚</div>
+
+    <h1>AI Study Assistant</h1>
+
+    <p>Your personal AI tutor 🤖</p>
+
+    <p>
+        Learn • Practice • Revise • Succeed ✨
+    </p>
+
+</div>
+""", unsafe_allow_html=True)
 
 # ============================================================
 # TOOL SELECTION
