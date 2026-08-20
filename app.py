@@ -916,7 +916,45 @@ Use simple language and focus on
 important concepts.
 """
 
-                        with st.spinner("🧠 Creating flashcards..."):
+                            flash_topic = st.text_input(
+        "📚 Flashcard Topic",
+        placeholder="Example: C++ OOP",
+    )
+
+    number_of_cards = st.slider(
+        "🔢 Number of Flashcards",
+        5,
+        20,
+        10,
+    )
+
+    if st.button("🧠 Create Flashcards"):
+
+        if not flash_topic.strip():
+            st.warning("⚠️ Enter a topic first.")
+
+        else:
+
+            prompt = f"""
+Create {number_of_cards} useful study
+flashcards for:
+
+Topic:
+{flash_topic}
+
+Format each flashcard like this:
+
+### 🟦 Card 1
+
+**Question:** ...
+
+**Answer:** ...
+
+Use simple language and focus on
+important concepts.
+"""
+
+            with st.spinner("🧠 Creating flashcards..."):
 
                 try:
                     answer = ask_gemini(prompt)
@@ -939,8 +977,7 @@ important concepts.
 
 # ============================================================
 # STUDY PLANNER
-# ============================================================
-
+# =============================================================
 elif st.session_state.tool == "plan":
 
     st.markdown(
