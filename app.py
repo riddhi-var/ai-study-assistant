@@ -879,25 +879,25 @@ elif st.session_state.tool == "flash":
     )
 
     flash_topic = st.text_input(
-        "📚 Flashcard Topic",
-        placeholder="Example: C++ OOP",
-    )
+    "📚 Flashcard Topic",
+    placeholder="Example: C++ OOP",
+)
 
-    number_of_cards = st.slider(
-        "🔢 Number of Flashcards",
-        5,
-        20,
-        10,
-    )
+number_of_cards = st.slider(
+    "🔢 Number of Flashcards",
+    5,
+    20,
+    10,
+)
 
-    if st.button("🧠 Create Flashcards"):
+if st.button("🧠 Create Flashcards"):
 
-        if not flash_topic.strip():
-            st.warning("⚠️ Enter a topic first.")
+    if not flash_topic.strip():
+        st.warning("⚠️ Enter a topic first.")
 
-        else:
+    else:
 
-            prompt = f"""
+        prompt = f"""
 Create {number_of_cards} useful study
 flashcards for:
 
@@ -916,68 +916,30 @@ Use simple language and focus on
 important concepts.
 """
 
-                            flash_topic = st.text_input(
-        "📚 Flashcard Topic",
-        placeholder="Example: C++ OOP",
-    )
+        with st.spinner("🧠 Creating flashcards..."):
 
-    number_of_cards = st.slider(
-        "🔢 Number of Flashcards",
-        5,
-        20,
-        10,
-    )
+            try:
+                answer = ask_gemini(prompt)
 
-    if st.button("🧠 Create Flashcards"):
+                st.markdown(
+                    """
+                    <div class="answer-box">
+                        <h2>🧠 Flashcards</h2>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
 
-        if not flash_topic.strip():
-            st.warning("⚠️ Enter a topic first.")
+                st.markdown(answer)
 
-        else:
-
-            prompt = f"""
-Create {number_of_cards} useful study
-flashcards for:
-
-Topic:
-{flash_topic}
-
-Format each flashcard like this:
-
-### 🟦 Card 1
-
-**Question:** ...
-
-**Answer:** ...
-
-Use simple language and focus on
-important concepts.
-"""
-
-            with st.spinner("🧠 Creating flashcards..."):
-
-                try:
-                    answer = ask_gemini(prompt)
-
-                    st.markdown(
-                        """
-                        <div class="answer-box">
-                            <h2>🧠 Flashcards</h2>
-                        </div>
-                        """,
-                        unsafe_allow_html=True,
-                    )
-
-                    st.markdown(answer)
-
-                except Exception as e:
-                    st.error("❌ Could not create flashcards.")
-                    st.code(str(e))
+            except Exception as e:
+                st.error("❌ Could not create flashcards.")
+                st.code(str(e))
 
 
 # ============================================================
 # STUDY PLANNER
-# =============================================================
+# ============================================================
 elif st.session_state.tool == "plan":
 
     st.markdown(
